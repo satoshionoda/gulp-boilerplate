@@ -5,7 +5,13 @@ _notes/
 .DS_Store
 *.iml
 *.map
-.idea/
+
+!.idea/
+.idea/*
+!.idea/codeStyles/
+!.idea/codeStyles/codeStyleConfig.xml
+!.idea/codeStyles/Project.xml
+
 npm-debug.log
 
 
