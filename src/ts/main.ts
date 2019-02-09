@@ -1,5 +1,5 @@
 import {MainDoc} from "./app/MainDoc";
 
-(function() {
+(function(){
   let doc = new MainDoc();
 })();

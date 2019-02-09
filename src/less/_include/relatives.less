@@ -2,271 +2,279 @@
 //@import (reference) "variables";
 //@import (reference) "tools";
 
-.lg {
+.lg{
   @base: 1280;
-  .r {
-    .rect(@w, @h, @is-pw:false) {
+
+  .r{
+    .rect(@w, @h, @is-pw:false){
       .h(@h);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = true) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = true){
       .p.w(@w);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = false) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = false){
       .w(@w);
     }
 
-    .w(@val;) {
+    .w(@val){
       @r: @val / @base * 100vw;
       width: @r;
     }
-    .h(@val;) {
+    .h(@val){
       @r: @val / @base * 100vw;
       height: @r;
     }
-    .l(@val;) {
+    .l(@val){
       @r: @val / @base * 100vw;
       left: @r;
     }
-    .t(@val) {
+    .t(@val){
       @r: @val / @base * 100vw;
       top: @r;
     }
-    .r(@val) {
+    .r(@val){
       @r: @val / @base * 100vw;
       right: @r;
     }
-    .b(@val) {
+    .b(@val){
       @r: @val / @base * 100vw;
       bottom: @r;
     }
 
-    .ml(@val) {
+    .ml(@val){
       @r: @val / @base * 100vw;
       margin-left: @r;
     }
-    .mr(@val) {
+    .mr(@val){
       @r: @val / @base * 100vw;
       margin-right: @r;
     }
-    .mt(@val) {
+    .mt(@val){
       @r: @val / @base * 100vw;
       margin-top: @r;
     }
-    .mb(@val) {
+    .mb(@val){
       @r: @val / @base * 100vw;
       margin-bottom: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100vw;
       padding-left: @r;
     }
-    .pr(@val) {
+    .pr(@val){
       @r: @val / @base * 100vw;
       padding-right: @r;
     }
-    .pt(@val) {
+    .pt(@val){
       @r: @val / @base * 100vw;
       padding-top: @r;
     }
-    .pb(@val) {
+    .pb(@val){
       @r: @val / @base * 100vw;
       padding-bottom: @r;
     }
-    .lh(@val) {
+    .lh(@val){
       @r: @val / @base * 100vw;
       line-height: @r;
     }
-    .fsz(@val) {
+    .fsz(@val){
       @r: @val / @base * 100vw;
       font-size: @r;
     }
   }
-  .p {
-    .w(@val) {
+
+  .p{
+    .w(@val){
       @r: @val / @base * 100%;
       width: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100%;
       padding-left: @r;
     }
   }
 }
-.md {
+
+.md{
   @base: 720;
-  .r {
-    .rect(@w, @h, @is-pw:false) {
+
+  .r{
+    .rect(@w, @h, @is-pw:false){
       .h(@h);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = true) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = true){
       .p.w(@w);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = false) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = false){
       .w(@w);
     }
 
-    .w(@val;) {
+    .w(@val){
       @r: @val / @base * 100vw;
       width: @r;
     }
-    .h(@val;) {
+    .h(@val){
       @r: @val / @base * 100vw;
       height: @r;
     }
-    .l(@val;) {
+    .l(@val){
       @r: @val / @base * 100vw;
       left: @r;
     }
-    .t(@val) {
+    .t(@val){
       @r: @val / @base * 100vw;
       top: @r;
     }
-    .r(@val) {
+    .r(@val){
       @r: @val / @base * 100vw;
       right: @r;
     }
-    .b(@val) {
+    .b(@val){
       @r: @val / @base * 100vw;
       bottom: @r;
     }
 
-    .ml(@val) {
+    .ml(@val){
       @r: @val / @base * 100vw;
       margin-left: @r;
     }
-    .mr(@val) {
+    .mr(@val){
       @r: @val / @base * 100vw;
       margin-right: @r;
     }
-    .mt(@val) {
+    .mt(@val){
       @r: @val / @base * 100vw;
       margin-top: @r;
     }
-    .mb(@val) {
+    .mb(@val){
       @r: @val / @base * 100vw;
       margin-bottom: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100vw;
       padding-left: @r;
     }
-    .pr(@val) {
+    .pr(@val){
       @r: @val / @base * 100vw;
       padding-right: @r;
     }
-    .pt(@val) {
+    .pt(@val){
       @r: @val / @base * 100vw;
       padding-top: @r;
     }
-    .pb(@val) {
+    .pb(@val){
       @r: @val / @base * 100vw;
       padding-bottom: @r;
     }
-    .lh(@val) {
+    .lh(@val){
       @r: @val / @base * 100vw;
       line-height: @r;
     }
-    .fsz(@val) {
+    .fsz(@val){
       @r: @val / @base * 100vw;
       font-size: @r;
     }
   }
-  .p {
-    .w(@val) {
+
+  .p{
+    .w(@val){
       @r: @val / @base * 100%;
       width: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100%;
       padding-left: @r;
     }
   }
 }
-.sm {
+
+.sm{
   @base: 640;
-  .r {
-    .rect(@w, @h, @is-pw:false) {
+
+  .r{
+    .rect(@w, @h, @is-pw:false){
       .h(@h);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = true) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = true){
       .p.w(@w);
     }
-    .rect(@w, @h, @is-pw:false) when (@is-pw = false) {
+    .rect(@w, @h, @is-pw:false) when (@is-pw = false){
       .w(@w);
     }
 
-    .w(@val;) {
+    .w(@val){
       @r: @val / @base * 100vw;
       width: @r;
     }
-    .h(@val;) {
+    .h(@val){
       @r: @val / @base * 100vw;
       height: @r;
     }
-    .l(@val;) {
+    .l(@val){
       @r: @val / @base * 100vw;
       left: @r;
     }
-    .t(@val) {
+    .t(@val){
       @r: @val / @base * 100vw;
       top: @r;
     }
-    .r(@val) {
+    .r(@val){
       @r: @val / @base * 100vw;
       right: @r;
     }
-    .b(@val) {
+    .b(@val){
       @r: @val / @base * 100vw;
       bottom: @r;
     }
 
-    .ml(@val) {
+    .ml(@val){
       @r: @val / @base * 100vw;
       margin-left: @r;
     }
-    .mr(@val) {
+    .mr(@val){
       @r: @val / @base * 100vw;
       margin-right: @r;
     }
-    .mt(@val) {
+    .mt(@val){
       @r: @val / @base * 100vw;
       margin-top: @r;
     }
-    .mb(@val) {
+    .mb(@val){
       @r: @val / @base * 100vw;
       margin-bottom: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100vw;
       padding-left: @r;
     }
-    .pr(@val) {
+    .pr(@val){
       @r: @val / @base * 100vw;
       padding-right: @r;
     }
-    .pt(@val) {
+    .pt(@val){
       @r: @val / @base * 100vw;
       padding-top: @r;
     }
-    .pb(@val) {
+    .pb(@val){
       @r: @val / @base * 100vw;
       padding-bottom: @r;
     }
-    .lh(@val) {
+    .lh(@val){
       @r: @val / @base * 100vw;
       line-height: @r;
     }
-    .fsz(@val) {
+    .fsz(@val){
       @r: @val / @base * 100vw;
       font-size: @r;
     }
   }
-  .p {
-    .w(@val) {
+
+  .p{
+    .w(@val){
       @r: @val / @base * 100%;
       width: @r;
     }
-    .pl(@val) {
+    .pl(@val){
       @r: @val / @base * 100%;
       padding-left: @r;
     }

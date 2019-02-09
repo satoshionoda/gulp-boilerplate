@@ -1,44 +1,44 @@
 import {EVENT_LOAD, EVENT_PAGESHOW, EVENT_READY, EVENT_RESIZE, EVENT_SCROLL} from "./Consts";
 
 export class DocBase {
-  static WinY: number = 0;
+  static WinY:number = 0;
 
-  protected isScrolling: boolean = false;
-  protected isResizing: boolean = false;
-  protected isWinLoaded: boolean = false;
-  protected isDOMReady: boolean = false;
-  private scrollTick: boolean = false;
+  protected isScrolling:boolean = false;
+  protected isResizing:boolean = false;
+  protected isWinLoaded:boolean = false;
+  protected isDOMReady:boolean = false;
+  private scrollTick:boolean = false;
 
-  constructor() {
+  constructor(){
     this.setEvents();
   }
 
   /**
    * @abstract
    */
-  protected onReady() {
+  protected onReady(){
   }
 
-  protected onLoadWin() {
+  protected onLoadWin(){
   }
 
-  protected onScroll() {
+  protected onScroll(){
   }
 
-  protected onStartScrolling() {
+  protected onStartScrolling(){
   }
 
-  protected onStopScrolling() {
+  protected onStopScrolling(){
   }
 
-  protected onStartResizing() {
+  protected onStartResizing(){
   }
 
-  protected onStopResizing() {
+  protected onStopResizing(){
   }
 
 
-  private setEvents() {
+  private setEvents(){
     document.addEventListener(EVENT_READY, () => {
       this.isDOMReady = true;
       this.onReady();
@@ -51,18 +51,18 @@ export class DocBase {
 
     window.addEventListener(EVENT_PAGESHOW, (e) => {
       // http://stray-light.info/wp/ios-safari-backbutton/
-      if ((e as any).persisted) {
+      if((e as any).persisted){
         window.location.reload();
       }
     });
 
-    let scrollTimeout: number;
+    let scrollTimeout:number;
     window.addEventListener(EVENT_SCROLL, () => {
       DocBase.WinY = window.scrollY;
-      if (!this.isDOMReady) {
+      if(!this.isDOMReady){
         return;
       }
-      if (!this.scrollTick) {
+      if(!this.scrollTick){
         requestAnimationFrame(() => {
           this.scrollTick = false;
           this.onScroll();
@@ -70,7 +70,7 @@ export class DocBase {
       }
       this.scrollTick = true;
 
-      if (!this.isScrolling) {
+      if(!this.isScrolling){
         this.isScrolling = true;
         this.onStartScrolling();
       }
@@ -81,10 +81,10 @@ export class DocBase {
       }, 300);
     });
 
-    let resizeTimeout: number;
+    let resizeTimeout:number;
     window.addEventListener(EVENT_RESIZE, () => {
 
-      if (!this.isResizing) {
+      if(!this.isResizing){
         this.isResizing = true;
         this.onStartResizing();
       }

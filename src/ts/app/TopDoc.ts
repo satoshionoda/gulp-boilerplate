@@ -1,11 +1,11 @@
 import {MainDoc} from "./MainDoc";
 
-export class TopDoc extends MainDoc{
+export class TopDoc extends MainDoc {
   constructor(){
     super();
   }
 
-  protected onReady() {
+  protected onReady(){
     console.log("hello");
   }
 }

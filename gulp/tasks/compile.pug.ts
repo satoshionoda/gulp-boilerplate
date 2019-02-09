@@ -9,12 +9,12 @@ import {Globs} from "gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import {createInfoArray, globFromInfoArray, rename} from "../utils/files";
 
-const plugins = <any>gulpLoadPlugins();
+const plugins = <any> gulpLoadPlugins();
 
-export function compilePug(profile: IPug, name: string, done: any, priority: boolean = false) {
+export function compilePug(profile:IPug, name:string, done:any, priority:boolean = false){
   util.log(`${name} with ENV:`, util.colors.red(env));
-  let files: ProcessInfo[] = createInfoArray(profile, priority);
-  let src: Globs = globFromInfoArray(files);
+  let files:ProcessInfo[] = createInfoArray(profile, priority);
+  let src:Globs = globFromInfoArray(files);
 
   gulp.src(src)
     .pipe(debug())
@@ -27,24 +27,24 @@ export function compilePug(profile: IPug, name: string, done: any, priority: boo
     });
 }
 
-function debug(): ReadWriteStream {
+function debug():ReadWriteStream{
   return plugins.debug({title: "pug processed:"});
 }
 
-function plumber(): ReadWriteStream {
+function plumber():ReadWriteStream{
   return plugins.plumber({
-    errorHandler: function(err: any) {
+    errorHandler: function(err:any){
       notify(err);
       this.emit("end");
     }
   });
 }
 
-function pug(profile: IPug): ReadWriteStream {
-  let data: any = {};
-  let dataPaths: string[] = profile.data;
-  if(dataPaths) {
-    for(let str of dataPaths) {
+function pug(profile:IPug):ReadWriteStream{
+  let data:any = {};
+  let dataPaths:string[] = profile.data;
+  if(dataPaths){
+    for(let str of dataPaths){
       let path = join(profile.src, str);
       delete require.cache[path];
       let tempData = require(path);

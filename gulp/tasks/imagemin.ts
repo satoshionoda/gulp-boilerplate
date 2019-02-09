@@ -6,9 +6,9 @@ import imageminMozjpeg = require("imagemin-mozjpeg");
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import {IImagemin} from "imagelogic-gulp";
 
-const plugins = <any>gulpLoadPlugins();
+const plugins = <any> gulpLoadPlugins();
 
-export function processImagemin(profile:IImagemin, done: any) {
+export function processImagemin(profile:IImagemin, done:any){
   console.log(profile.path);
   gulp.src(`${profile.path}/**/*.*`)
     .pipe(imagemin(profile))
@@ -18,12 +18,13 @@ export function processImagemin(profile:IImagemin, done: any) {
     });
 }
 
-function imagemin(profile:IImagemin): ReadWriteStream {
+function imagemin(profile:IImagemin):ReadWriteStream{
   return plugins.imagemin([
-    plugins.imagemin.optipng(),
-    pngquant({quality: profile.pngquant, speed: 1}),
-    plugins.imagemin.jpegtran(),
-    //A:60, B:70, C:80
-    imageminMozjpeg({quality: profile.jpegmin}),
-  ], {verbose: true});
+      plugins.imagemin.optipng(),
+      pngquant({quality: profile.pngquant, speed: 1}),
+      plugins.imagemin.jpegtran(),
+      //A:60, B:70, C:80
+      imageminMozjpeg({quality: profile.jpegmin}),
+    ], {verbose: true}
+  );
 }

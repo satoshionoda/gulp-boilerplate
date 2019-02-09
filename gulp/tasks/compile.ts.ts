@@ -12,14 +12,14 @@ import ReadWriteStream = NodeJS.ReadWriteStream;
 import {createInfoArray, globFromInfoArray} from "../utils/files";
 import {Globs} from "gulp";
 
-const plugins = <any>gulpLoadPlugins();
+const plugins = <any> gulpLoadPlugins();
 
-export function compileTs(profile: ITs, name: string, watch: boolean, done: any) {
-  let files: ProcessInfo[] = createInfoArray(profile);
-  let src: Globs = globFromInfoArray(files);
+export function compileTs(profile:ITs, name:string, watch:boolean, done:any){
+  let files:ProcessInfo[] = createInfoArray(profile);
+  let src:Globs = globFromInfoArray(files);
 
   util.log(`${name} with ENV:`, util.colors.red(env));
-  let config: webpack.Configuration = makeWebpackConfig(profile, watch);
+  let config:webpack.Configuration = makeWebpackConfig(profile, watch);
 
   gulp.src(src)
     .pipe(plumber())
@@ -32,9 +32,9 @@ export function compileTs(profile: ITs, name: string, watch: boolean, done: any)
 }
 
 
-function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Configuration {
-  let entries: StringMap = {};
-  for(let key in profile.files) {
+function makeWebpackConfig(profile:ITs, watch:boolean = false):webpack.Configuration{
+  let entries:StringMap = {};
+  for(let key in profile.files){
     entries[key] = join(profile.src, profile.files[key]);
   }
 
@@ -63,17 +63,17 @@ function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Config
   };
 }
 
-function uglyfy(): ReadWriteStream {
-  if(env === ENV_DEV) {
+function uglyfy():ReadWriteStream{
+  if(env === ENV_DEV){
     return util.noop();
-  } else {
+  }else{
     return plugins.uglify();
   }
 }
 
-function plumber(): ReadWriteStream {
+function plumber():ReadWriteStream{
   return plugins.plumber({
-    errorHandler: function(err: any) {
+    errorHandler: function(err:any){
       notify(err);
       this.emit("end");
     }

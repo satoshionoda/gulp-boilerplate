@@ -4,11 +4,11 @@ import * as consts from "./utils/consts";
 import {IProfile} from "imagelogic-gulp";
 import {IBuild} from "imagelogic-gulp";
 
-const PROFILE_STATIC: string = "static";
-const PROFILE_WP: string = "wp";
-const BUILD_STATIC: string = "static";
-const BUILD_WP: string = "wp";
-const BUILD_ALL: string = "all";
+const PROFILE_STATIC:string = "static";
+const PROFILE_WP:string = "wp";
+const BUILD_STATIC:string = "static";
+const BUILD_WP:string = "wp";
+const BUILD_ALL:string = "all";
 
 const SRC_DIR = join(process.cwd(), "src");
 const PUBLIC_DIR = join(process.cwd(), "public_static");
@@ -17,9 +17,9 @@ const ASSETS_DIR = join(PROD_DIR, "assets");
 
 class Config {
 
-  env: string = consts.ENV_DEV;
+  env:string = consts.ENV_DEV;
 
-  profile: IProfile[] = [
+  profile:IProfile[] = [
     {
       name: PROFILE_STATIC,
       paths: join(PROD_DIR),
@@ -62,25 +62,27 @@ class Config {
           "top.js": "top.ts",
         }
       },
-      sync: [{
-        name: "img",
-        src: join(SRC_DIR, "assets/img"),
-        dest: join(ASSETS_DIR, "images"),
-        watch: false
-      }, {
-        name: "libs",
-        src: join(SRC_DIR, "assets/libs"),
-        dest: join(ASSETS_DIR, "libs"),
-        watch: true
-      }, {
-        name: "fonts",
-        src: join(SRC_DIR, "assets/fonts"),
-        dest: join(ASSETS_DIR, "fonts"),
-        watch: false
-      }]
+      sync: [
+        {
+          name: "img",
+          src: join(SRC_DIR, "assets/img"),
+          dest: join(ASSETS_DIR, "images"),
+          watch: false
+        }, {
+          name: "libs",
+          src: join(SRC_DIR, "assets/libs"),
+          dest: join(ASSETS_DIR, "libs"),
+          watch: true
+        }, {
+          name: "fonts",
+          src: join(SRC_DIR, "assets/fonts"),
+          dest: join(ASSETS_DIR, "fonts"),
+          watch: false
+        }
+      ]
     }
   ];
-  build: IBuild[] = [
+  build:IBuild[] = [
     {
       name: BUILD_STATIC,
       clean: [join(PROD_DIR)],
@@ -97,15 +99,15 @@ class Config {
     }
   ];
 
-  changeEnv(env: string) {
+  changeEnv(env:string){
     this.env = env;
   }
 
-  constructor() {
+  constructor(){
     util.log("making config");
   }
 }
 
-const config: Config = new Config();
+const config:Config = new Config();
 export = config;
 

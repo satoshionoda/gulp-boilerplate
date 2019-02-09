@@ -13,14 +13,14 @@ import {liveReload, reloadBrowser, runWatchCompile, runWatchCopy} from "./gulp/t
 import {processImagemin} from "./gulp/tasks/imagemin";
 
 
-function registerPug(profile: IPug, profileName: string) {
-  const name: string = `${profileName}.pug`;
-  gulp.task(name, (done: () => void) => {
+function registerPug(profile:IPug, profileName:string){
+  const name:string = `${profileName}.pug`;
+  gulp.task(name, (done:() => void) => {
     compilePug(profile, name, done);
   });
 
-  if(profile.files_priority) {
-    gulp.task(`${name}.priority`, (done: () => void) => {
+  if(profile.files_priority){
+    gulp.task(`${name}.priority`, (done:() => void) => {
       compilePug(profile, name, done, true);
     });
   }
@@ -30,14 +30,14 @@ function registerPug(profile: IPug, profileName: string) {
 
 }
 
-function registerLess(profile: ILess, profileName: string) {
-  const name: string = `${profileName}.less`;
-  gulp.task(name, (done: () => void) => {
+function registerLess(profile:ILess, profileName:string){
+  const name:string = `${profileName}.less`;
+  gulp.task(name, (done:() => void) => {
     compileLess(profile, name, done);
   });
 
-  if(profile.files_priority) {
-    gulp.task(`${name}.priority`, (done: () => void) => {
+  if(profile.files_priority){
+    gulp.task(`${name}.priority`, (done:() => void) => {
       compileLess(profile, name, done, true);
     });
   }
@@ -47,40 +47,40 @@ function registerLess(profile: ILess, profileName: string) {
   });
 }
 
-function registerTs(profile: ITs, profileName: string) {
-  const name: string = `${profileName}.ts`;
-  gulp.task(name, (done: () => void) => {
+function registerTs(profile:ITs, profileName:string){
+  const name:string = `${profileName}.ts`;
+  gulp.task(name, (done:() => void) => {
     compileTs(profile, name, false, done);
   });
 
-  gulp.task(`${name}.watch`, (done: () => void) => {
+  gulp.task(`${name}.watch`, (done:() => void) => {
     compileTs(profile, name, true, done);
   });
 }
 
-function registerSync(profile: ISync, profileName: string) {
-  const name: string = `${profileName}.sync.${profile.name}`;
-  gulp.task(name, (done: () => void) => {
+function registerSync(profile:ISync, profileName:string){
+  const name:string = `${profileName}.sync.${profile.name}`;
+  gulp.task(name, (done:() => void) => {
     processSync(profile, name, done);
   });
 
-  if(profile.watch) {
+  if(profile.watch){
     gulp.task(`${name}.watch`, () => {
       runWatchCopy(profile, profileName);
     });
   }
 }
 
-function registerClean(build: IBuild) {
-  if(build.clean) {
-    gulp.task(`${build.name}.clean`, (done: () => void) => {
+function registerClean(build:IBuild){
+  if(build.clean){
+    gulp.task(`${build.name}.clean`, (done:() => void) => {
       clean(build.clean, done);
     });
   }
 }
 
-function registerImagemin(build: IBuild) {
-  if(!build.imagemin) {
+function registerImagemin(build:IBuild){
+  if(!build.imagemin){
     return;
   }
   gulp.task(`${build.name}.imagemin`, (done:any) => {
@@ -88,14 +88,14 @@ function registerImagemin(build: IBuild) {
   });
 }
 
-function registerBuildDevelop(build: IBuild) {
+function registerBuildDevelop(build:IBuild){
   const tasks = createTaskSequence(build);
   gulp.task(`${build.name}.build.develop`, gulp.series(...tasks));
 }
 
-function registerBuildProd(build: IBuild) {
+function registerBuildProd(build:IBuild){
   const tasks = createTaskSequence(build);
-  tasks.unshift((done: () => void) => {
+  tasks.unshift((done:() => void) => {
     config.changeEnv(ENV_PROD);
     done();
   });
@@ -103,35 +103,35 @@ function registerBuildProd(build: IBuild) {
   gulp.task(`${build.name}.build.prod`, gulp.series(...tasks));
 }
 
-function registerWatch(build: IBuild) {
-  const tasks: Undertaker.Task[] = [];
+function registerWatch(build:IBuild){
+  const tasks:Undertaker.Task[] = [];
   build.profiles.forEach((profileName) => {
     const profile = findProfile(profileName);
-    if(profile.ts) {
+    if(profile.ts){
       tasks.push(`${profile.name}.ts.watch`);
     }
-    if(profile.pug) {
+    if(profile.pug){
       tasks.push(`${profile.name}.pug.watch`);
     }
-    if(profile.less) {
+    if(profile.less){
       tasks.push(`${profile.name}.less.watch`);
     }
-    if(profile.sync) {
+    if(profile.sync){
       profile.sync.forEach((sync) => {
-        if(sync.watch) {
+        if(sync.watch){
           tasks.push(`${profile.name}.sync.${sync.name}.watch`);
         }
       });
     }
   });
-  if(build.livereload) {
+  if(build.livereload){
     tasks.push(`${build.name}.liveReload`);
   }
   gulp.task(`${build.name}.watch`, gulp.parallel(...tasks));
 }
 
-function registerDevelop(build: IBuild) {
-  const tasks: Undertaker.Task[] = [
+function registerDevelop(build:IBuild){
+  const tasks:Undertaker.Task[] = [
     `${build.name}.build.develop`,
     `${build.name}.watch`
   ];
@@ -139,8 +139,8 @@ function registerDevelop(build: IBuild) {
 
 }
 
-function registerLiveReload(build: IBuild) {
-  if(!build.livereload) {
+function registerLiveReload(build:IBuild){
+  if(!build.livereload){
     return;
   }
   gulp.task(`${build.name}.liveReload`, () => {
@@ -149,30 +149,30 @@ function registerLiveReload(build: IBuild) {
 }
 
 
-function createTaskSequence(build: IBuild): Undertaker.Task[] {
-  const buildName: string = build.name;
-  const tasks: Undertaker.Task[] = [];
-  if(build.clean) {
+function createTaskSequence(build:IBuild):Undertaker.Task[]{
+  const buildName:string = build.name;
+  const tasks:Undertaker.Task[] = [];
+  if(build.clean){
     tasks.push(`${buildName}.clean`);
   }
-  build.profiles.forEach((key: string) => {
-    const profile: IProfile = findProfile(key);
-    if(!profile) {
+  build.profiles.forEach((key:string) => {
+    const profile:IProfile = findProfile(key);
+    if(!profile){
       return;
     }
-    const profileName: string = profile.name;
-    if(profile.sync) {
+    const profileName:string = profile.name;
+    if(profile.sync){
       profile.sync.forEach((sync) => {
         tasks.push(`${profileName}.sync.${sync.name}`);
       });
     }
-    if(profile.pug) {
+    if(profile.pug){
       tasks.push(`${profileName}.pug`);
     }
-    if(profile.less) {
+    if(profile.less){
       tasks.push(`${profileName}.less`);
     }
-    if(profile.ts) {
+    if(profile.ts){
       tasks.push(`${profileName}.ts`);
     }
   });
@@ -180,10 +180,10 @@ function createTaskSequence(build: IBuild): Undertaker.Task[] {
   return tasks;
 }
 
-function findProfile(key: string) {
-  let r: IProfile = null;
+function findProfile(key:string){
+  let r:IProfile = null;
   config.profile.forEach((profile) => {
-    if(profile.name === key) {
+    if(profile.name === key){
       r = profile;
     }
   });
@@ -196,25 +196,25 @@ gulp.task(`reloadBrowser`, (done) => {
   done();
 });
 
-config.profile.forEach((profile: IProfile) => {
-  const profileName: string = profile.name;
-  if(profile.pug) {
+config.profile.forEach((profile:IProfile) => {
+  const profileName:string = profile.name;
+  if(profile.pug){
     registerPug(profile.pug, profileName);
   }
-  if(profile.less) {
+  if(profile.less){
     registerLess(profile.less, profileName);
   }
-  if(profile.ts) {
+  if(profile.ts){
     registerTs(profile.ts, profileName);
   }
-  if(profile.sync) {
+  if(profile.sync){
     profile.sync.forEach((sync) => {
       registerSync(sync, profileName);
     });
   }
 });
 
-config.build.forEach((build: IBuild) => {
+config.build.forEach((build:IBuild) => {
   registerClean(build);
   registerImagemin(build);
   registerLiveReload(build);
