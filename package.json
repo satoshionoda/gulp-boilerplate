@@ -59,5 +59,7 @@
   },
   "author": "Satoshi Onoda",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@types/autoprefixer": "^9.1.1"
+  }
 }

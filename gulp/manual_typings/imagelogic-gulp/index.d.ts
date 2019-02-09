@@ -1,5 +1,7 @@
 declare module "imagelogic-gulp" {
 
+  import * as autoprefixer from "autoprefixer";
+
   interface IProfile {
     name: string;
     paths: string | string[];
@@ -33,7 +35,7 @@ declare module "imagelogic-gulp" {
   }
 
   interface ILess extends ISrc {
-
+    autoprefixer:autoprefixer.Options;
   }
 
   interface ITs extends ISrc {

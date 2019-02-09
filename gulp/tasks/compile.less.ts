@@ -8,17 +8,11 @@ import {ILess, ProcessInfo} from "imagelogic-gulp";
 import {createInfoArray, globFromInfoArray, rename} from "../utils/files";
 import {Globs} from "gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
+import * as autoprefixer from "autoprefixer";
 
 const plugins: any = <any>gulpLoadPlugins();
 
-let LessAutoprefix = require("less-plugin-autoprefix");
-let autoprefix = new LessAutoprefix({
-  browsers: [
-    "last 3 versions",
-    "Safari 8",
-    "Android 4.2"
-  ]
-});
+
 
 export function compileLess(profile: ILess, name: string, done: any, priority: boolean = false) {
   util.log(`${name} with ENV:`, util.colors.red(env));
@@ -29,7 +23,7 @@ export function compileLess(profile: ILess, name: string, done: any, priority: b
     .pipe(debug())
     .pipe(plumber())
     .pipe(initSourceMap())
-    .pipe(less())
+    .pipe(less(profile.autoprefixer))
     .pipe(addSourceMap())
     .pipe(addHashToImg())
     .pipe(rename(files))
@@ -45,7 +39,7 @@ function debug(): ReadWriteStream {
 
 function plumber(): ReadWriteStream {
   return plugins.plumber({
-    errorHandler: function (err: any) {
+    errorHandler: function(err: any) {
       notify(err);
       this.emit("end");
     }
@@ -56,23 +50,25 @@ function initSourceMap(): ReadWriteStream {
   return plugins.sourcemaps.init();
 }
 
-function less(): ReadWriteStream {
+function less(autoprefixOpts:autoprefixer.Options): ReadWriteStream {
+  let LessAutoprefix = require("less-plugin-autoprefix");
+  let autoprefix = new LessAutoprefix(autoprefixOpts);
+
   return plugins.less({
     plugins: [autoprefix]
   });
 }
 
 function addSourceMap(): NodeJS.ReadWriteStream {
-  if (env === ENV_DEV) {
+  if(env === ENV_DEV) {
     return plugins.sourcemaps.write();
-    // return util.noop();
   } else {
     return util.noop();
   }
 }
 
 function addHashToImg(): NodeJS.ReadWriteStream {
-  if (env === ENV_PROD) {
+  if(env === ENV_PROD) {
     return plugins.replace(/background-image: url\("(.*)"\);/g, (match: string, p1: string, offset: number, string: string) => {
       let num = new Date().valueOf();
       return `background-image: url("${p1}?${num}");`;

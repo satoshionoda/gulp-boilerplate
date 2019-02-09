@@ -5,10 +5,10 @@ import {IProfile} from "imagelogic-gulp";
 import {IBuild} from "imagelogic-gulp";
 
 const PROFILE_STATIC: string = "static";
-const PROFILE_WP:string = "wp";
+const PROFILE_WP: string = "wp";
 const BUILD_STATIC: string = "static";
 const BUILD_WP: string = "wp";
-const BUILD_ALL:string = "all";
+const BUILD_ALL: string = "all";
 
 const SRC_DIR = join(process.cwd(), "src");
 const PUBLIC_DIR = join(process.cwd(), "public_static");
@@ -28,7 +28,7 @@ class Config {
         dest: join(PROD_DIR),
         watch: ["pug", "json", "js", "svg", "html"],
         data: ["_include/settings.json", "_include/meta.json"],
-        files_priority:{
+        files_priority: {
           "index.html": "top.pug",
         },
         files: {
@@ -40,12 +40,17 @@ class Config {
         src: join(SRC_DIR, "less"),
         dest: join(ASSETS_DIR, "css"),
         watch: ["less"],
-        files_priority:{
+        files_priority: {
           "main.css": "main.less",
         },
         files: {
           "main.css": "main.less",
           "top.css": "top.less",
+        },
+        autoprefixer: {
+          browsers: [
+            "last 2 versions"
+          ]
         }
       },
       ts: {
@@ -84,10 +89,10 @@ class Config {
         dir: PUBLIC_DIR,
         ext: ["php", "html", "css", "js", "jpg", "gif", "svg", "png"],
       },
-      imagemin:{
-        path:join(ASSETS_DIR, "images"),
-        pngquant:[0.4,1],
-        jpegmin:80
+      imagemin: {
+        path: join(ASSETS_DIR, "images"),
+        pngquant: [0.4, 1],
+        jpegmin: 80
       }
     }
   ];
