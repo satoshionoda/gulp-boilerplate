@@ -4,7 +4,6 @@ declare module "imagelogic-gulp" {
 
   interface IProfile {
     name:string;
-    paths:string | string[];
     sync?:ISync[];
     pug?:IPug;
     less?:ILess;

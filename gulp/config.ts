@@ -1,6 +1,6 @@
 import {join} from "path";
 import * as util from "gulp-util";
-import * as consts from "./utils/consts";
+import {ENV_DEV} from "./utils/consts";
 import {IProfile} from "imagelogic-gulp";
 import {IBuild} from "imagelogic-gulp";
 
@@ -17,12 +17,11 @@ const ASSETS_DIR = join(PROD_DIR, "assets");
 
 class Config {
 
-  env:string = consts.ENV_DEV;
+  env:string = ENV_DEV;
 
   profile:IProfile[] = [
     {
       name: PROFILE_STATIC,
-      paths: join(PROD_DIR),
       pug: {
         src: join(SRC_DIR, "pug"),
         dest: join(PROD_DIR),
