@@ -1,5 +1,4 @@
 import * as gulp from "gulp";
-import * as util from "gulp-util";
 import * as Undertaker from "undertaker";
 
 import * as config from "./gulp/config";
@@ -11,11 +10,8 @@ import {IBuild, ILess, IProfile, IPug, ISync, ITs} from "imagelogic-gulp";
 import {clean} from "./gulp/tasks/clean";
 import {ENV_PROD} from "./gulp/utils/consts";
 import {liveReload, reloadBrowser, runWatchCompile, runWatchCopy} from "./gulp/tasks/watches";
+import {processImagemin} from "./gulp/tasks/imagemin";
 
-function test(done: any) {
-  util.log("hello");
-  done();
-}
 
 function registerPug(profile: IPug, profileName: string) {
   const name: string = `${profileName}.pug`;
@@ -83,6 +79,15 @@ function registerClean(build: IBuild) {
   }
 }
 
+function registerImagemin(build: IBuild) {
+  if(!build.imagemin) {
+    return;
+  }
+  gulp.task(`${build.name}.imagemin`, (done:any) => {
+    processImagemin(build.imagemin, done);
+  });
+}
+
 function registerBuildDevelop(build: IBuild) {
   const tasks = createTaskSequence(build);
   gulp.task(`${build.name}.build.develop`, gulp.series(...tasks));
@@ -94,6 +99,7 @@ function registerBuildProd(build: IBuild) {
     config.changeEnv(ENV_PROD);
     done();
   });
+  tasks.push(`${build.name}.imagemin`);
   gulp.task(`${build.name}.build.prod`, gulp.series(...tasks));
 }
 
@@ -210,9 +216,12 @@ config.profile.forEach((profile: IProfile) => {
 
 config.build.forEach((build: IBuild) => {
   registerClean(build);
+  registerImagemin(build);
   registerLiveReload(build);
   registerBuildDevelop(build);
   registerBuildProd(build);
   registerWatch(build);
   registerDevelop(build);
 });
+
+

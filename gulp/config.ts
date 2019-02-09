@@ -83,6 +83,11 @@ class Config {
       livereload: {
         dir: PUBLIC_DIR,
         ext: ["php", "html", "css", "js", "jpg", "gif", "svg", "png"],
+      },
+      imagemin:{
+        path:join(ASSETS_DIR, "images"),
+        pngquant:[0.4,1],
+        jpegmin:80
       }
     }
   ];
