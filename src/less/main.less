@@ -1,0 +1,69 @@
+@import (reference) "./_include/variables";
+@import (reference) "./_include/tools";
+@import (reference) "./_include/decoration";
+@import (reference) "./_include/relatives";
+//
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+  @media only screen and(-webkit-min-device-pixel-ratio: 2),(min-resolution: 2dppx) {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .font.ja;
+  background-color: @color-gray-dark;
+  color: @color-white-pure;
+  a{
+    color: #cc7799;
+  };
+}
+
+h1, h2, h3, h4, h5, th {
+  font-weight: normal;
+}
+
+.no-sm {
+  @media screen and (max-width: @responsive-threshold1) {
+    display: none !important;
+  }
+}
+
+.no-md {
+  @media screen and (min-width: (@responsive-threshold1 + 1)) and (max-width: @responsive-threshold2) {
+    display: none !important;
+  }
+}
+
+.no-lg {
+  @media screen and (min-width: (@responsive-threshold2 + 1)) {
+    display: none !important;
+  }
+}
+
+.sm-only {
+  .no-md();
+  .no-lg();
+}
+
+.md-only {
+  .no-sm();
+  .no-lg();
+}
+
+.lg-only {
+  .no-sm();
+  .no-md();
+}
+
+
+
+@media screen and (max-width: @responsive-threshold1) {
+}
+
+@media screen and (min-width: (@responsive-threshold1 + 1)) and (max-width: @responsive-threshold2) {
+}
+
+@media screen and (min-width: (@responsive-threshold2 + 1)) {
+}
+
+

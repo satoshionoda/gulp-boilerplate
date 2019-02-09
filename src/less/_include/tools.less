@@ -1,0 +1,104 @@
+//@import (reference) "variables";
+
+.sq(@val) {
+  width: @val;
+  height: @val;
+}
+
+.rect(@w, @h, @is-block:true) {
+  width: @w;
+  height: @h;
+}
+
+.rect(@w, @h, @is-block:true) when (@is-block = true) {
+  display: block;
+}
+
+.abs(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) {
+  position: absolute;
+}
+
+.abs(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@left = inherit) {
+  left: @left;
+}
+
+.abs(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@top = inherit) {
+  top: @top;
+}
+
+.abs(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@right = inherit) {
+  right: @right;
+}
+
+.abs(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@bottom = inherit) {
+  bottom: @bottom;
+}
+
+.fixed(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) {
+  position: fixed;
+}
+
+.fixed(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@left = inherit) {
+  left: @left;
+}
+
+.fixed(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@top = inherit) {
+  top: @top;
+}
+
+.fixed(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@right = inherit) {
+  right: @right;
+}
+
+.fixed(@left:inherit, @top:inherit, @right:inherit, @bottom:inherit) when not (@bottom = inherit) {
+  bottom: @bottom;
+}
+
+.line-height-fix-top(@fsz, @lh, @base:0) {
+  margin-top: @base + round((@lh - @fsz)/-2);
+}
+
+.line-height-fix-bottom(@fsz, @lh, @base:0) {
+  margin-bottom: @base + round((@lh - @fsz)/-2);
+}
+
+.line-height-fix(@fsz, @lh, @mt:0, @mb:0) {
+  .line-height-fix-top(@fsz, @lh, @mt);
+  .line-height-fix-bottom(@fsz, @lh, @mb);
+}
+
+.bg-retina(@path, @bg-width:inherit, @mixin-child:false) when (@bg-width = cover) and (@mixin-child = true)  {
+  background-image: url("@{path-img1x}@{path}");
+  background-size: cover;
+  @media (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    background-image: url("@{path-img2x}@{path}");
+    background-size: cover !important;
+  }
+}
+
+.bg-retina(@path, @bg-width:inherit, @mixin-child:false) when (@bg-width = cover) and (@mixin-child = false){
+  background-image: url("@{path-img1x}@{path}");
+  background-size: cover;
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    background-image: url("@{path-img2x}@{path}");
+    background-size: cover !important;
+  }
+}
+
+.bg-retina(@path, @bg-width:inherit, @mixin-child:false) when not (@bg-width = cover) and  (@mixin-child = true){
+  background-image: url("@{path-img1x}@{path}");
+  background-size: @bg-width auto;
+  @media (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    background-image: url("@{path-img2x}@{path}");
+    background-size: @bg-width auto !important;
+  }
+}
+
+.bg-retina(@path, @bg-width:inherit, @mixin-child:false) when not (@bg-width = cover) and  (@mixin-child = false){
+  background-image: url("@{path-img1x}@{path}");
+  background-size: @bg-width auto;
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),(min-resolution: 1.5dppx) {
+    background-image: url("@{path-img2x}@{path}");
+    background-size: @bg-width auto !important;
+  }
+}

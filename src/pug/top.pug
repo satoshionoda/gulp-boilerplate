@@ -1,0 +1,11 @@
+extends _template/_base
+
+block vars
+  - lev1ID = "top";
+block links
+  link(href=`${pathToCSS}top.css`, rel="stylesheet", type="text/css")
+
+block main
+  p this is index.html
+  p: a(href=links.google) link to Google
+
