@@ -27,7 +27,7 @@ class Config {
         src: join(SRC_DIR, "pug"),
         dest: join(PROD_DIR),
         watch: ["pug", "json", "js", "svg", "html"],
-        data: ["_include/settings.json", "_include/meta.json"],
+        data: ["_include/settings.js", "_include/meta.js"],
         files_priority: {
           "index.html": "top.pug",
         },

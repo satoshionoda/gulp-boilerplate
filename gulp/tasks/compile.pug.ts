@@ -51,8 +51,10 @@ function pug(profile:IPug):ReadWriteStream{
       // data = merge.recursive(true, dataPaths, tempData);
       data = Object.assign(data, tempData);
       util.log("pug settings loaded:", util.colors.green(str));
+      // console.log(tempData);
     }
   }
+  // console.log(data);
 
   return plugins.pug({
     pretty: true,
