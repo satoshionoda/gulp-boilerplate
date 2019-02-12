@@ -10,13 +10,13 @@ import {Globs} from "gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import * as autoprefixer from "autoprefixer";
 
-const plugins:any = <any> gulpLoadPlugins();
+const plugins: any = <any>gulpLoadPlugins();
 
 
-export function compileLess(profile:ILess, name:string, done:any, priority:boolean = false){
+export function compileLess(profile: ILess, name: string, done: any, priority: boolean = false) {
   util.log(`${name} with ENV:`, util.colors.red(env));
-  let files:ProcessInfo[] = createInfoArray(profile, priority);
-  let src:Globs = globFromInfoArray(files);
+  let files: ProcessInfo[] = createInfoArray(profile, priority);
+  let src: Globs = globFromInfoArray(files);
 
   gulp.src(src)
     .pipe(debug())
@@ -32,24 +32,24 @@ export function compileLess(profile:ILess, name:string, done:any, priority:boole
     });
 }
 
-function debug():ReadWriteStream{
+function debug(): ReadWriteStream {
   return plugins.debug({title: "less processed:"});
 }
 
-function plumber():ReadWriteStream{
+function plumber(): ReadWriteStream {
   return plugins.plumber({
-    errorHandler: function(err:any){
+    errorHandler: function(err: any) {
       notify(err);
       this.emit("end");
     }
   });
 }
 
-function initSourceMap():ReadWriteStream{
+function initSourceMap(): ReadWriteStream {
   return plugins.sourcemaps.init();
 }
 
-function less(autoprefixOpts:autoprefixer.Options):ReadWriteStream{
+function less(autoprefixOpts: autoprefixer.Options): ReadWriteStream {
   let LessAutoprefix = require("less-plugin-autoprefix");
   let autoprefix = new LessAutoprefix(autoprefixOpts);
 
@@ -59,24 +59,24 @@ function less(autoprefixOpts:autoprefixer.Options):ReadWriteStream{
     });
 }
 
-function addSourceMap():NodeJS.ReadWriteStream{
-  if(env === ENV_DEV){
+function addSourceMap(): NodeJS.ReadWriteStream {
+  if (env === ENV_DEV) {
     return plugins.sourcemaps.write();
-  }else{
+  } else {
     return util.noop();
   }
 }
 
-function addHashToImg():NodeJS.ReadWriteStream{
-  if(env === ENV_PROD){
+function addHashToImg(): NodeJS.ReadWriteStream {
+  if (env === ENV_PROD) {
     return plugins.replace(
       /background-image: url\("(.*)"\);/g,
-      (match:string, p1:string, offset:number, string:string) => {
+      (match: string, p1: string, offset: number, string: string) => {
         let num = new Date().valueOf();
         return `background-image: url("${p1}?${num}");`;
       }
     );
-  }else{
+  } else {
     return util.noop();
   }
 }

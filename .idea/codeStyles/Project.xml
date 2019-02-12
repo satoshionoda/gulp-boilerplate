@@ -16,7 +16,7 @@
       <option name="HTML_INLINE_ELEMENTS" value="abbr,acronym,b,basefont,bdo,big,br,cite,cite,code,dfn,em,font,i,input,kbd,label,q,s,samp,select,strike,strong,sub,sup,textarea,tt,u,var" />
       <option name="HTML_ENFORCE_QUOTES" value="true" />
     </HTMLCodeStyleSettings>
-    <JSCodeStyleSettings>
+    <JSCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="SPACE_AFTER_TYPE_COLON" value="false" />
       <option name="SPACE_BEFORE_GENERATOR_MULT" value="true" />
@@ -40,7 +40,7 @@
       <option name="SPACES_AROUND_ARROW" value="true" />
       <option name="SPACE_AROUND_ASSIGNMENT_IN_DECLARE" value="true" />
     </PHPCodeStyleSettings>
-    <TypeScriptCodeStyleSettings>
+    <TypeScriptCodeStyleSettings version="1">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="SPACE_BEFORE_GENERATOR_MULT" value="true" />
       <option name="ALIGN_VAR_STATEMENTS" value="1" />
@@ -200,21 +200,6 @@
       <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
       <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
       <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
-      <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
-      <option name="SPACE_BEFORE_METHOD_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_IF_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_ELSE_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_WHILE_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_FOR_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_DO_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_SWITCH_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_TRY_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_CATCH_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_FINALLY_LBRACE" value="false" />
-      <option name="SPACE_BEFORE_ELSE_KEYWORD" value="false" />
-      <option name="SPACE_BEFORE_WHILE_KEYWORD" value="false" />
-      <option name="SPACE_BEFORE_CATCH_KEYWORD" value="false" />
-      <option name="SPACE_BEFORE_FINALLY_KEYWORD" value="false" />
       <option name="CALL_PARAMETERS_WRAP" value="1" />
       <option name="CALL_PARAMETERS_RPAREN_ON_NEXT_LINE" value="true" />
       <option name="METHOD_PARAMETERS_WRAP" value="1" />

@@ -3,38 +3,38 @@ declare module "imagelogic-gulp" {
   import * as autoprefixer from "autoprefixer";
 
   interface IProfile {
-    name:string;
-    sync?:ISync[];
-    pug?:IPug;
-    less?:ILess;
-    ts?:ITs;
+    name: string;
+    sync?: ISync[];
+    pug?: IPug;
+    less?: ILess;
+    ts?: ITs;
   }
 
   interface IBuild {
-    name:string;
-    profiles:string[];
-    clean?:string | string[];
-    livereload?:ILiveReload;
-    imagemin?:IImagemin;
+    name: string;
+    profiles: string[];
+    clean?: string | string[];
+    livereload?: ILiveReload;
+    imagemin?: IImagemin;
   }
 
   interface ISync {
-    name:string;
-    src:string;
-    dest:string;
-    watch:boolean;
+    name: string;
+    src: string;
+    dest: string;
+    watch: boolean;
   }
 
   interface ISrc {
-    files_priority?:StringMap;
-    files:StringMap;
-    src:string;
-    dest:string;
-    watch:string[];
+    files_priority?: StringMap;
+    files: StringMap;
+    src: string;
+    dest: string;
+    watch: string[];
   }
 
   interface ILess extends ISrc {
-    autoprefixer:autoprefixer.Options;
+    autoprefixer: autoprefixer.Options;
   }
 
   interface ITs extends ISrc {
@@ -42,29 +42,29 @@ declare module "imagelogic-gulp" {
   }
 
   interface IPug extends ISrc {
-    data?:string[];
+    data?: string[];
   }
 
   interface ILiveReload {
-    dir:string;
-    ext:string[];
-    exclude?:string[];
+    dir: string;
+    ext: string[];
+    exclude?: string[];
   }
 
   interface IImagemin {
-    path:string;
-    jpegmin:number;
-    pngquant:[number, number];
+    path: string;
+    jpegmin: number;
+    pngquant: [number, number];
   }
 
   interface StringMap {
-    [key:string]:string;
+    [key: string]: string;
   }
 
   interface ProcessInfo {
-    src:string;
-    dest:string;
-    fullSrc:string;
-    fullDest:string;
+    src: string;
+    dest: string;
+    fullSrc: string;
+    fullDest: string;
   }
 }

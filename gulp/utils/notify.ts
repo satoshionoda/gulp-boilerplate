@@ -1,8 +1,8 @@
 import * as gulpLoadPlugins from "gulp-load-plugins";
 
-const plugins = <any> gulpLoadPlugins();
+const plugins = <any>gulpLoadPlugins();
 
-export function notify(err:any){
+export function notify(err: any) {
   plugins.notify.onError({
     title: "Gulp",
     contentImage: null,

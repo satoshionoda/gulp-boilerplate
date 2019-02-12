@@ -4,11 +4,11 @@ import {ENV_DEV} from "./utils/consts";
 import {IProfile} from "imagelogic-gulp";
 import {IBuild} from "imagelogic-gulp";
 
-const PROFILE_STATIC:string = "static";
-const PROFILE_WP:string = "wp";
-const BUILD_STATIC:string = "static";
-const BUILD_WP:string = "wp";
-const BUILD_ALL:string = "all";
+const PROFILE_STATIC: string = "static";
+const PROFILE_WP: string = "wp";
+const BUILD_STATIC: string = "static";
+const BUILD_WP: string = "wp";
+const BUILD_ALL: string = "all";
 
 const SRC_DIR = join(process.cwd(), "src");
 const PUBLIC_DIR = join(process.cwd(), "public_static");
@@ -17,9 +17,9 @@ const ASSETS_DIR = join(PROD_DIR, "assets");
 
 class Config {
 
-  env:string = ENV_DEV;
+  env: string = ENV_DEV;
 
-  profile:IProfile[] = [
+  profile: IProfile[] = [
     {
       name: PROFILE_STATIC,
       pug: {
@@ -81,7 +81,7 @@ class Config {
       ]
     }
   ];
-  build:IBuild[] = [
+  build: IBuild[] = [
     {
       name: BUILD_STATIC,
       clean: [join(PROD_DIR)],
@@ -98,7 +98,7 @@ class Config {
     }
   ];
 
-  changeEnv(env:string){
+  changeEnv(env: string){
     this.env = env;
   }
 
@@ -107,6 +107,6 @@ class Config {
   }
 }
 
-const config:Config = new Config();
+const config: Config = new Config();
 export = config;
 
