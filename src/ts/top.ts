@@ -1,5 +1,5 @@
 import {TopDoc} from "./app/TopDoc";
 
-(function(){
+(function() {
   let doc = new TopDoc();
 })();
