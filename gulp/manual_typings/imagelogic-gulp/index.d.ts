@@ -16,6 +16,7 @@ declare module "imagelogic-gulp" {
     clean?: string | string[];
     livereload?: ILiveReload;
     imagemin?: IImagemin;
+    url?: string | string[];
   }
 
   interface ISync {

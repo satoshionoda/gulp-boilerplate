@@ -11,6 +11,7 @@ import {clean} from "./gulp/tasks/clean";
 import {ENV_PROD} from "./gulp/utils/consts";
 import {liveReload, reloadBrowser, runWatchCompile, runWatchCopy} from "./gulp/tasks/watches";
 import {processImagemin} from "./gulp/tasks/imagemin";
+import {openURL} from "./gulp/tasks/open";
 
 
 function registerPug(profile: IPug, profileName: string) {
@@ -88,6 +89,15 @@ function registerImagemin(build: IBuild) {
   });
 }
 
+function registerOpen(build: IBuild) {
+  if (!build.url) {
+    return;
+  }
+  gulp.task(`${build.name}.open`, (done: any) => {
+    openURL(build.url, done);
+  });
+}
+
 function registerBuildDevelop(build: IBuild) {
   const tasks = createTaskSequence(build);
   gulp.task(`${build.name}.build.develop`, gulp.series(...tasks));
@@ -133,7 +143,8 @@ function registerWatch(build: IBuild) {
 function registerDevelop(build: IBuild) {
   const tasks: Undertaker.Task[] = [
     `${build.name}.build.develop`,
-    `${build.name}.watch`
+    `${build.name}.open`,
+    `${build.name}.watch`,
   ];
   gulp.task(`${build.name}.develop`, gulp.series(...tasks));
 
@@ -215,6 +226,7 @@ config.profile.forEach((profile: IProfile) => {
 });
 
 config.build.forEach((build: IBuild) => {
+  registerOpen(build);
   registerClean(build);
   registerImagemin(build);
   registerLiveReload(build);

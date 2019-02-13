@@ -90,8 +90,9 @@ class Config {
       imagemin: {
         path: join(ASSETS_DIR, "images"),
         pngquant: [0.4, 1],
-        jpegmin: 80
-      }
+        jpegmin: 80,
+      },
+      url: "http://google.com",
     }
   ];
 
