@@ -5,10 +5,7 @@ import {IProfile} from "imagelogic-gulp";
 import {IBuild} from "imagelogic-gulp";
 
 const PROFILE_STATIC: string = "static";
-const PROFILE_WP: string = "wp";
 const BUILD_STATIC: string = "static";
-const BUILD_WP: string = "wp";
-const BUILD_ALL: string = "all";
 
 const SRC_DIR = join(process.cwd(), "src");
 const PUBLIC_DIR = join(process.cwd(), "public_static");
@@ -98,11 +95,11 @@ class Config {
     }
   ];
 
-  changeEnv(env: string){
+  changeEnv(env: string) {
     this.env = env;
   }
 
-  constructor(){
+  constructor() {
     util.log("making config");
   }
 }
