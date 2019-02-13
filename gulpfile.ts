@@ -1,6 +1,5 @@
 import * as gulp from "gulp";
 import * as Undertaker from "undertaker";
-
 import * as config from "./gulp/config";
 import {compilePug} from "./gulp/tasks/compile.pug";
 import {compileLess} from "./gulp/tasks/compile.less";
@@ -8,65 +7,81 @@ import {compileTs} from "./gulp/tasks/compile.ts";
 import {processSync} from "./gulp/tasks/copy";
 import {IBuild, ILess, IProfile, IPug, ISync, ITs} from "imagelogic-gulp";
 import {clean} from "./gulp/tasks/clean";
-import {ENV_PROD} from "./gulp/utils/consts";
+import {ENV_DEV, ENV_PROD} from "./gulp/utils/consts";
 import {liveReload, reloadBrowser, runWatchCompile, runWatchCopy} from "./gulp/tasks/watches";
 import {processImagemin} from "./gulp/tasks/imagemin";
 import {openURL} from "./gulp/tasks/open";
 
 
+enum KEYS {
+  PUG           = "pug",
+  LESS          = "less",
+  TS            = "ts",
+  WATCH         = "watch",
+  OPEN          = "open",
+  SYNC          = "sync",
+  CLEAN         = "clean",
+  IMAGEMIN      = "imagemin",
+  LIVE_RELOAD   = "liveReload",
+  SINGLE_RELOAD = "singleReload",
+  PRIORITY      = "priority",
+  BUILD         = "build",
+}
+
+
 function registerPug(profile: IPug, profileName: string) {
-  const name: string = `${profileName}.pug`;
+  const name: string = `${profileName}.${KEYS.PUG}`;
   gulp.task(name, (done: () => void) => {
     compilePug(profile, name, done);
   });
 
   if (profile.files_priority) {
-    gulp.task(`${name}.priority`, (done: () => void) => {
+    gulp.task(`${name}.${KEYS.PRIORITY}`, (done: () => void) => {
       compilePug(profile, name, done, true);
     });
   }
-  gulp.task(`${name}.watch`, () => {
-    runWatchCompile(profile, profileName, "pug");
+  gulp.task(`${name}.${KEYS.WATCH}`, () => {
+    runWatchCompile(profile, profileName, KEYS.PUG);
   });
 
 }
 
 function registerLess(profile: ILess, profileName: string) {
-  const name: string = `${profileName}.less`;
+  const name: string = `${profileName}.${KEYS.LESS}`;
   gulp.task(name, (done: () => void) => {
     compileLess(profile, name, done);
   });
 
   if (profile.files_priority) {
-    gulp.task(`${name}.priority`, (done: () => void) => {
+    gulp.task(`${name}.${KEYS.PRIORITY}`, (done: () => void) => {
       compileLess(profile, name, done, true);
     });
   }
 
-  gulp.task(`${name}.watch`, () => {
-    runWatchCompile(profile, profileName, "less");
+  gulp.task(`${name}.${KEYS.WATCH}`, () => {
+    runWatchCompile(profile, profileName, KEYS.LESS);
   });
 }
 
 function registerTs(profile: ITs, profileName: string) {
-  const name: string = `${profileName}.ts`;
+  const name: string = `${profileName}.${KEYS.TS}`;
   gulp.task(name, (done: () => void) => {
     compileTs(profile, name, false, done);
   });
 
-  gulp.task(`${name}.watch`, (done: () => void) => {
+  gulp.task(`${name}.${KEYS.WATCH}`, (done: () => void) => {
     compileTs(profile, name, true, done);
   });
 }
 
 function registerSync(profile: ISync, profileName: string) {
-  const name: string = `${profileName}.sync.${profile.name}`;
+  const name: string = `${profileName}.${KEYS.SYNC}.${profile.name}`;
   gulp.task(name, (done: () => void) => {
     processSync(profile, name, done);
   });
 
   if (profile.watch) {
-    gulp.task(`${name}.watch`, () => {
+    gulp.task(`${name}.${KEYS.WATCH}`, () => {
       runWatchCopy(profile, profileName);
     });
   }
@@ -74,7 +89,7 @@ function registerSync(profile: ISync, profileName: string) {
 
 function registerClean(build: IBuild) {
   if (build.clean) {
-    gulp.task(`${build.name}.clean`, (done: () => void) => {
+    gulp.task(`${build.name}.${KEYS.CLEAN}`, (done: () => void) => {
       clean(build.clean, done);
     });
   }
@@ -84,7 +99,7 @@ function registerImagemin(build: IBuild) {
   if (!build.imagemin) {
     return;
   }
-  gulp.task(`${build.name}.imagemin`, (done: any) => {
+  gulp.task(`${build.name}.${KEYS.IMAGEMIN}`, (done: any) => {
     processImagemin(build.imagemin, done);
   });
 }
@@ -93,14 +108,14 @@ function registerOpen(build: IBuild) {
   if (!build.url) {
     return;
   }
-  gulp.task(`${build.name}.open`, (done: any) => {
+  gulp.task(`${build.name}.${KEYS.OPEN}`, (done: any) => {
     openURL(build.url, done);
   });
 }
 
 function registerBuildDevelop(build: IBuild) {
   const tasks = createTaskSequence(build);
-  gulp.task(`${build.name}.build.develop`, gulp.series(...tasks));
+  gulp.task(`${build.name}.${KEYS.BUILD}.${ENV_DEV}`, gulp.series(...tasks));
 }
 
 function registerBuildProd(build: IBuild) {
@@ -109,8 +124,8 @@ function registerBuildProd(build: IBuild) {
     config.changeEnv(ENV_PROD);
     done();
   });
-  tasks.push(`${build.name}.imagemin`);
-  gulp.task(`${build.name}.build.prod`, gulp.series(...tasks));
+  tasks.push(`${build.name}.${KEYS.IMAGEMIN}`);
+  gulp.task(`${build.name}.${KEYS.BUILD}.${ENV_PROD}`, gulp.series(...tasks));
 }
 
 function registerWatch(build: IBuild) {
@@ -118,35 +133,35 @@ function registerWatch(build: IBuild) {
   build.profiles.forEach((profileName) => {
     const profile = findProfile(profileName);
     if (profile.ts) {
-      tasks.push(`${profile.name}.ts.watch`);
+      tasks.push(`${profile.name}.${KEYS.TS}.${KEYS.WATCH}`);
     }
     if (profile.pug) {
-      tasks.push(`${profile.name}.pug.watch`);
+      tasks.push(`${profile.name}.${KEYS.PUG}.${KEYS.WATCH}`);
     }
     if (profile.less) {
-      tasks.push(`${profile.name}.less.watch`);
+      tasks.push(`${profile.name}.${KEYS.LESS}.${KEYS.WATCH}`);
     }
     if (profile.sync) {
       profile.sync.forEach((sync) => {
         if (sync.watch) {
-          tasks.push(`${profile.name}.sync.${sync.name}.watch`);
+          tasks.push(`${profile.name}.${KEYS.SYNC}.${sync.name}.${KEYS.WATCH}`);
         }
       });
     }
   });
   if (build.livereload) {
-    tasks.push(`${build.name}.liveReload`);
+    tasks.push(`${build.name}.${KEYS.LIVE_RELOAD}`);
   }
-  gulp.task(`${build.name}.watch`, gulp.parallel(...tasks));
+  gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 }
 
 function registerDevelop(build: IBuild) {
   const tasks: Undertaker.Task[] = [
-    `${build.name}.build.develop`,
-    `${build.name}.open`,
-    `${build.name}.watch`,
+    `${build.name}.${KEYS.BUILD}.${ENV_DEV}`,
+    `${build.name}.${KEYS.OPEN}`,
+    `${build.name}.${KEYS.WATCH}`,
   ];
-  gulp.task(`${build.name}.develop`, gulp.series(...tasks));
+  gulp.task(`${build.name}.${ENV_DEV}`, gulp.series(...tasks));
 
 }
 
@@ -154,7 +169,7 @@ function registerLiveReload(build: IBuild) {
   if (!build.livereload) {
     return;
   }
-  gulp.task(`${build.name}.liveReload`, () => {
+  gulp.task(`${build.name}.${KEYS.LIVE_RELOAD}`, () => {
     liveReload(build.livereload);
   });
 }
@@ -164,7 +179,7 @@ function createTaskSequence(build: IBuild): Undertaker.Task[] {
   const buildName: string = build.name;
   const tasks: Undertaker.Task[] = [];
   if (build.clean) {
-    tasks.push(`${buildName}.clean`);
+    tasks.push(`${buildName}.${KEYS.CLEAN}`);
   }
   build.profiles.forEach((key: string) => {
     const profile: IProfile = findProfile(key);
@@ -174,17 +189,17 @@ function createTaskSequence(build: IBuild): Undertaker.Task[] {
     const profileName: string = profile.name;
     if (profile.sync) {
       profile.sync.forEach((sync) => {
-        tasks.push(`${profileName}.sync.${sync.name}`);
+        tasks.push(`${profileName}.${KEYS.SYNC}.${sync.name}`);
       });
     }
     if (profile.pug) {
-      tasks.push(`${profileName}.pug`);
+      tasks.push(`${profileName}.${KEYS.PUG}`);
     }
     if (profile.less) {
-      tasks.push(`${profileName}.less`);
+      tasks.push(`${profileName}.${KEYS.LESS}`);
     }
     if (profile.ts) {
-      tasks.push(`${profileName}.ts`);
+      tasks.push(`${profileName}.${KEYS.TS}`);
     }
   });
 
@@ -202,7 +217,7 @@ function findProfile(key: string) {
 }
 
 
-gulp.task(`reloadBrowser`, (done) => {
+gulp.task(`${KEYS.SINGLE_RELOAD}`, (done) => {
   reloadBrowser();
   done();
 });
