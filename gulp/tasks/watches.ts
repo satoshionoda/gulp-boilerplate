@@ -2,6 +2,7 @@ import * as gulp from "gulp";
 import {join} from "path";
 import * as gulpLoadPlugins from "gulp-load-plugins";
 import {ISync, ILiveReload, ISrc} from "imagelogic-gulp";
+import {KEYS} from "../../gulpfile";
 
 const plugins: any = <any>gulpLoadPlugins();
 
@@ -55,5 +56,5 @@ export function liveReload(profile: ILiveReload) {
     });
   }
 
-  gulp.watch(watch, gulp.series("reloadBrowser"));
+  gulp.watch(watch, gulp.series(KEYS.SINGLE_RELOAD));
 }

@@ -13,7 +13,7 @@ import {processImagemin} from "./gulp/tasks/imagemin";
 import {openURL} from "./gulp/tasks/open";
 
 
-enum KEYS {
+export enum KEYS {
   PUG           = "pug",
   LESS          = "less",
   TS            = "ts",
