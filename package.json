@@ -4,11 +4,12 @@
   "description": "",
   "main": "",
   "devDependencies": {
+    "@types/autoprefixer": "^9.4.0",
     "@types/gulp": "^4.0.6",
     "@types/gulp-load-plugins": "0.0.31",
     "@types/gulp-util": "^3.0.34",
     "@types/node": "^11.13.4",
-    "@types/opn": "^5.5.0",
+    "@types/opn": "^5.1.0",
     "@types/rimraf": "^2.0.2",
     "@types/through2": "^2.0.34",
     "@types/webpack": "^4.4.27",
@@ -61,7 +62,5 @@
   },
   "author": "Satoshi Onoda",
   "private": true,
-  "dependencies": {
-    "@types/autoprefixer": "^9.4.0"
-  }
+  "dependencies": {}
 }
