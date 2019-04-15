@@ -124,7 +124,9 @@ function registerBuildProd(build: IBuild) {
     config.changeEnv(ENV_PROD);
     done();
   });
-  tasks.push(`${build.name}.${KEYS.IMAGEMIN}`);
+  if (build.imagemin) {
+    tasks.push(`${build.name}.${KEYS.IMAGEMIN}`);
+  }
   gulp.task(`${build.name}.${KEYS.BUILD}.${ENV_PROD}`, gulp.series(...tasks));
 }
 
