@@ -9,7 +9,7 @@
     "@types/gulp-load-plugins": "0.0.31",
     "@types/gulp-util": "^3.0.34",
     "@types/node": "^11.13.4",
-    "@types/opn": "^5.1.0",
+    "@types/opn": "5.1.0",
     "@types/rimraf": "^2.0.2",
     "@types/through2": "^2.0.34",
     "@types/webpack": "^4.4.27",
