@@ -51,6 +51,7 @@
     "tslint": "^5.15.0",
     "tslint-stylish": "^2.1.0",
     "typescript": "^3.4.3",
+    "wallaby-webpack": "^3.9.15",
     "webpack": "^4.30.0",
     "webpack-stream": "^5.2.1"
   },
