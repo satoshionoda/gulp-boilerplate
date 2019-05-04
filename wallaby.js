@@ -10,7 +10,7 @@ module.exports = function () {
       {pattern: 'node_modules/jquery/dist/jquery.js', instrument: false},
       {pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', instrument: false},
       {pattern: 'src/ts/app/**/*.ts', load: false},
-      'src/ts/test/fixtures/**/*.html'
+      'public_static/**/*.html'
     ],
 
     tests: [
@@ -20,7 +20,7 @@ module.exports = function () {
     postprocessor: webpackPostprocessor,
     env: {kind: 'chrome'},
     bootstrap: function () {
-      jasmine.getFixtures().fixturesPath = 'src/ts/test/fixtures';
+      jasmine.getFixtures().fixturesPath = 'public_static';
       window.__moduleBundler.loadTests();
     }
   };
