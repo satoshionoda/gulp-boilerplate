@@ -1,4 +1,4 @@
-import opn = require("opn");
+import opn = require("open");
 
 export function openURL(urls: string | string[], done: () => void) {
   let toOpen: string[];
