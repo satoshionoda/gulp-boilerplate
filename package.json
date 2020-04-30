@@ -45,7 +45,7 @@
     "imagemin-pngquant": "^8.0.0",
     "jasmine": "^3.4.0",
     "jasmine-jquery": "^2.1.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "less-plugin-autoprefix": "^2.0.0",
     "open": "^6.4.0",
     "rimraf": "^3.0.0",
