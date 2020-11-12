@@ -91,7 +91,9 @@ class Config {
         pngquant: [0.4, 1],
         jpegmin: 80,
       },
-      url: "http://google.com",
+      server: {
+        base: PUBLIC_DIR,
+      },
     },
   ];
 

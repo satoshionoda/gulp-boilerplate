@@ -3,17 +3,16 @@ import { extname, join } from "path";
 import { Globs } from "gulp";
 import * as through2 from "through2";
 import * as File from "vinyl";
-import ReadWriteStream = NodeJS.ReadWriteStream;
 import * as util from "gulp-util";
-import { env } from "../config";
+import ReadWriteStream = NodeJS.ReadWriteStream;
 
 export function createInfoArray(profile: ISrc, isPriority: boolean = false): ProcessInfo[] {
-  let files: ProcessInfo[] = [];
-  let target = isPriority ? profile.files_priority : profile.files;
+  const files: ProcessInfo[] = [];
+  const target = isPriority ? profile.files_priority : profile.files;
   if (isPriority) {
     util.log(util.colors.red("Priority files only!"));
   }
-  for (let key in target) {
+  for (const key in target) {
     files.push({
       src: profile.files[key],
       dest: key,
@@ -31,10 +30,10 @@ export function globFromInfoArray(arr: ProcessInfo[]): Globs {
 }
 
 export function rename(infoArray: ProcessInfo[]): ReadWriteStream {
-  let ext = extname(infoArray[0].src);
+  const ext = extname(infoArray[0].src);
   return through2.obj((file: File, unused, cb) => {
     file.extname = ext;
-    let info: ProcessInfo = infoArray.find((elm) => {
+    const info: ProcessInfo = infoArray.find((elm) => {
       return elm.fullSrc === file.path;
     });
     file.path = join(file.base, info.dest);

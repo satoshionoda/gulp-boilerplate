@@ -8,9 +8,16 @@ import { processSync } from "./gulp/tasks/copy";
 import { IBuild, ILess, IProfile, IPug, ISync, ITs } from "imagelogic-gulp";
 import { clean } from "./gulp/tasks/clean";
 import { ENV_DEV, ENV_PROD } from "./gulp/utils/consts";
-import { liveReload, reloadBrowser, runWatchCompile, runWatchCopy } from "./gulp/tasks/watches";
+import {
+  liveReload,
+  reloadBrowser,
+  runWatchCompile,
+  runWatchCopy,
+} from "./gulp/tasks/watches";
 import { processImagemin } from "./gulp/tasks/imagemin";
 import { openURL } from "./gulp/tasks/open";
+import * as browserSync from "browser-sync";
+import { join } from "path";
 
 export enum KEYS {
   PUG = "pug",
@@ -23,6 +30,7 @@ export enum KEYS {
   IMAGEMIN = "imagemin",
   LIVE_RELOAD = "liveReload",
   SINGLE_RELOAD = "singleReload",
+  BROWSER_SYNC = "browser-sync",
   PRIORITY = "priority",
   BUILD = "build",
 }
@@ -151,13 +159,15 @@ function registerWatch(build: IBuild) {
   if (build.livereload) {
     tasks.push(`${build.name}.${KEYS.LIVE_RELOAD}`);
   }
+  if (build.server) {
+    tasks.push(`${build.name}.${KEYS.BROWSER_SYNC}`);
+  }
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 }
 
 function registerDevelop(build: IBuild) {
   const tasks: Undertaker.Task[] = [
     `${build.name}.${KEYS.BUILD}.${ENV_DEV}`,
-    `${build.name}.${KEYS.OPEN}`,
     `${build.name}.${KEYS.WATCH}`,
   ];
   gulp.task(`${build.name}.${ENV_DEV}`, gulp.series(...tasks));
@@ -169,6 +179,19 @@ function registerLiveReload(build: IBuild) {
   }
   gulp.task(`${build.name}.${KEYS.LIVE_RELOAD}`, () => {
     liveReload(build.livereload);
+  });
+}
+
+function registerBrowserSync(build: IBuild) {
+  if (!build.server) {
+    return;
+  }
+  gulp.task(`${build.name}.${KEYS.BROWSER_SYNC}`, () => {
+    browserSync.init({
+      server: {
+        baseDir: build.server.base,
+      },
+    });
   });
 }
 
@@ -241,8 +264,9 @@ config.build.forEach((build: IBuild) => {
   registerClean(build);
   registerImagemin(build);
   registerLiveReload(build);
+  registerBrowserSync(build);
   registerBuildDevelop(build);
   registerBuildProd(build);
   registerWatch(build);
-  registerDevelop(build);
+  // registerDevelop(build);
 });
