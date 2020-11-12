@@ -13,5 +13,4 @@ export function openURL(urls: string | string[], done: () => void) {
   });
 
   done();
-
 }

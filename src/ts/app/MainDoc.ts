@@ -1,7 +1,6 @@
-import {DocBase} from "./DocBase";
+import { DocBase } from "./DocBase";
 
 export class MainDoc extends DocBase {
-
   constructor() {
     super();
   }

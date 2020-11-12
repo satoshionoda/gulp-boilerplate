@@ -1,5 +1,5 @@
-import {MainDoc} from "./app/MainDoc";
+import { MainDoc } from "./app/MainDoc";
 
-(function() {
-  let doc = new MainDoc();
+(function () {
+  const doc = new MainDoc();
 })();

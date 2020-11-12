@@ -1,8 +1,8 @@
-import {join} from "path";
+import { join } from "path";
 import * as util from "gulp-util";
-import {ENV_DEV} from "./utils/consts";
-import {IProfile} from "imagelogic-gulp";
-import {IBuild} from "imagelogic-gulp";
+import { ENV_DEV } from "./utils/consts";
+import { IProfile } from "imagelogic-gulp";
+import { IBuild } from "imagelogic-gulp";
 
 const PROFILE_STATIC: string = "static";
 const BUILD_STATIC: string = "static";
@@ -13,7 +13,6 @@ const PROD_DIR = join(PUBLIC_DIR, "products");
 const ASSETS_DIR = join(PROD_DIR, "assets");
 
 class Config {
-
   env: string = ENV_DEV;
 
   profile: IProfile[] = [
@@ -30,7 +29,7 @@ class Config {
         files: {
           "index.html": "top.pug",
           "sub/index.html": "sub.pug",
-        }
+        },
       },
       less: {
         src: join(SRC_DIR, "less"),
@@ -44,10 +43,8 @@ class Config {
           "top.css": "top.less",
         },
         autoprefixer: {
-          browsers: [
-            "last 2 versions"
-          ]
-        }
+          browsers: ["last 2 versions"],
+        },
       },
       ts: {
         src: join(SRC_DIR, "ts"),
@@ -56,27 +53,29 @@ class Config {
         files: {
           "main.js": "main.ts",
           "top.js": "top.ts",
-        }
+        },
       },
       sync: [
         {
           name: "img",
           src: join(SRC_DIR, "assets/img"),
           dest: join(ASSETS_DIR, "images"),
-          watch: false
-        }, {
+          watch: false,
+        },
+        {
           name: "libs",
           src: join(SRC_DIR, "assets/libs"),
           dest: join(ASSETS_DIR, "libs"),
-          watch: true
-        }, {
+          watch: true,
+        },
+        {
           name: "fonts",
           src: join(SRC_DIR, "assets/fonts"),
           dest: join(ASSETS_DIR, "fonts"),
-          watch: false
-        }
-      ]
-    }
+          watch: false,
+        },
+      ],
+    },
   ];
   build: IBuild[] = [
     {
@@ -93,7 +92,7 @@ class Config {
         jpegmin: 80,
       },
       url: "http://google.com",
-    }
+    },
   ];
 
   changeEnv(env: string) {
@@ -107,4 +106,3 @@ class Config {
 
 const config: Config = new Config();
 export = config;
-

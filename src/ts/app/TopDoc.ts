@@ -1,4 +1,4 @@
-import {MainDoc} from "./MainDoc";
+import { MainDoc } from "./MainDoc";
 
 export class TopDoc extends MainDoc {
   constructor() {

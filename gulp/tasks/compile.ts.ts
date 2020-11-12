@@ -1,16 +1,16 @@
 import * as gulp from "gulp";
 import * as webpack from "webpack";
 import * as webpackStream from "webpack-stream";
-import {join} from "path";
-import {env} from "../config";
-import {ENV_DEV} from "../utils/consts";
+import { join } from "path";
+import { env } from "../config";
+import { ENV_DEV } from "../utils/consts";
 import * as gulpLoadPlugins from "gulp-load-plugins";
 import * as util from "gulp-util";
-import {notify} from "../utils/notify";
-import {ITs, ProcessInfo, StringMap} from "imagelogic-gulp";
+import { notify } from "../utils/notify";
+import { ITs, ProcessInfo, StringMap } from "imagelogic-gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
-import {createInfoArray, globFromInfoArray} from "../utils/files";
-import {Globs} from "gulp";
+import { createInfoArray, globFromInfoArray } from "../utils/files";
+import { Globs } from "gulp";
 
 const plugins = <any>gulpLoadPlugins();
 
@@ -21,7 +21,8 @@ export function compileTs(profile: ITs, name: string, watch: boolean, done: any)
   util.log(`${name} with ENV:`, util.colors.red(env));
   let config: webpack.Configuration = makeWebpackConfig(profile, watch);
 
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(plumber())
     .pipe(webpackStream(config))
     .pipe(uglyfy())
@@ -30,7 +31,6 @@ export function compileTs(profile: ITs, name: string, watch: boolean, done: any)
       done();
     });
 }
-
 
 function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Configuration {
   let entries: StringMap = {};
@@ -42,10 +42,10 @@ function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Config
     mode: "development",
     entry: entries,
     output: {
-      filename: "[name]"
+      filename: "[name]",
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".json"]
+      extensions: [".ts", ".tsx", ".js", ".json"],
     },
     module: {
       rules: [
@@ -53,13 +53,13 @@ function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Config
           test: /\.ts$/,
           loader: "ts-loader",
           options: {
-            configFile: "./tsconfig.json"
-          }
-        }
-      ]
+            configFile: "./tsconfig.json",
+          },
+        },
+      ],
     },
-    devtool: (env === ENV_DEV ? "inline-source-map" : false),
-    watch: watch
+    devtool: env === ENV_DEV ? "inline-source-map" : false,
+    watch: watch,
   };
 }
 
@@ -73,9 +73,9 @@ function uglyfy(): ReadWriteStream {
 
 function plumber(): ReadWriteStream {
   return plugins.plumber({
-    errorHandler: function(err: any) {
+    errorHandler: function (err: any) {
       notify(err);
       this.emit("end");
-    }
+    },
   });
 }

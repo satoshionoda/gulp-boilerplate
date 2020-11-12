@@ -1,13 +1,13 @@
 import * as gulp from "gulp";
-import {join} from "path";
-import {env} from "../config";
+import { join } from "path";
+import { env } from "../config";
 import * as gulpLoadPlugins from "gulp-load-plugins";
 import * as util from "gulp-util";
-import {notify} from "../utils/notify";
-import {IPug, ProcessInfo} from "imagelogic-gulp";
-import {Globs} from "gulp";
+import { notify } from "../utils/notify";
+import { IPug, ProcessInfo } from "imagelogic-gulp";
+import { Globs } from "gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
-import {createInfoArray, globFromInfoArray, rename} from "../utils/files";
+import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
 
 const plugins = <any>gulpLoadPlugins();
 
@@ -16,7 +16,8 @@ export function compilePug(profile: IPug, name: string, done: any, priority: boo
   let files: ProcessInfo[] = createInfoArray(profile, priority);
   let src: Globs = globFromInfoArray(files);
 
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(debug())
     .pipe(plumber())
     .pipe(pug(profile))
@@ -28,15 +29,15 @@ export function compilePug(profile: IPug, name: string, done: any, priority: boo
 }
 
 function debug(): ReadWriteStream {
-  return plugins.debug({title: "pug processed:"});
+  return plugins.debug({ title: "pug processed:" });
 }
 
 function plumber(): ReadWriteStream {
   return plugins.plumber({
-    errorHandler: function(err: any) {
+    errorHandler: function (err: any) {
       notify(err);
       this.emit("end");
-    }
+    },
   });
 }
 
@@ -59,9 +60,6 @@ function pug(profile: IPug): ReadWriteStream {
   return plugins.pug({
     pretty: true,
     locals: data,
-    self: false
+    self: false,
   });
 }
-
-
-

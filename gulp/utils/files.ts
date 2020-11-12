@@ -1,36 +1,36 @@
-import {ISrc, ProcessInfo} from "imagelogic-gulp";
-import {extname, join} from "path";
-import {Globs} from "gulp";
+import { ISrc, ProcessInfo } from "imagelogic-gulp";
+import { extname, join } from "path";
+import { Globs } from "gulp";
 import * as through2 from "through2";
 import * as File from "vinyl";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import * as util from "gulp-util";
-import {env} from "../config";
+import { env } from "../config";
 
-export function createInfoArray(profile: ISrc, isPriority: boolean = false): ProcessInfo[]{
+export function createInfoArray(profile: ISrc, isPriority: boolean = false): ProcessInfo[] {
   let files: ProcessInfo[] = [];
   let target = isPriority ? profile.files_priority : profile.files;
-  if (isPriority){
+  if (isPriority) {
     util.log(util.colors.red("Priority files only!"));
   }
-  for (let key in target){
+  for (let key in target) {
     files.push({
       src: profile.files[key],
       dest: key,
       fullSrc: join(profile.src, profile.files[key]),
-      fullDest: join(profile.dest, key)
+      fullDest: join(profile.dest, key),
     });
   }
   return files;
 }
 
-export function globFromInfoArray(arr: ProcessInfo[]): Globs{
+export function globFromInfoArray(arr: ProcessInfo[]): Globs {
   return arr.map((item) => {
     return item.fullSrc;
   });
 }
 
-export function rename(infoArray: ProcessInfo[]): ReadWriteStream{
+export function rename(infoArray: ProcessInfo[]): ReadWriteStream {
   let ext = extname(infoArray[0].src);
   return through2.obj((file: File, unused, cb) => {
     file.extname = ext;

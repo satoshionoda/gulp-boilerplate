@@ -1,4 +1,4 @@
-import {MainDoc} from "../app/MainDoc";
+import { MainDoc } from "../app/MainDoc";
 
 describe("MainDoc", () => {
   beforeEach(() => {

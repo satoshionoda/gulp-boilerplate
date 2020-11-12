@@ -7,6 +7,6 @@ export function notify(err: any) {
     title: "Gulp",
     contentImage: null,
     message: "Error: <%= error.message %>",
-    sound: false
+    sound: false,
   } as any)(err);
 }

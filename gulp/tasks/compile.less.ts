@@ -1,24 +1,24 @@
 import * as gulp from "gulp";
-import {env} from "../config";
-import {ENV_DEV, ENV_PROD} from "../utils/consts";
+import { env } from "../config";
+import { ENV_DEV, ENV_PROD } from "../utils/consts";
 import * as gulpLoadPlugins from "gulp-load-plugins";
-import {notify} from "../utils/notify";
+import { notify } from "../utils/notify";
 import * as util from "gulp-util";
-import {ILess, ProcessInfo} from "imagelogic-gulp";
-import {createInfoArray, globFromInfoArray, rename} from "../utils/files";
-import {Globs} from "gulp";
+import { ILess, ProcessInfo } from "imagelogic-gulp";
+import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
+import { Globs } from "gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import * as autoprefixer from "autoprefixer";
 
 const plugins: any = <any>gulpLoadPlugins();
-
 
 export function compileLess(profile: ILess, name: string, done: any, priority: boolean = false) {
   util.log(`${name} with ENV:`, util.colors.red(env));
   let files: ProcessInfo[] = createInfoArray(profile, priority);
   let src: Globs = globFromInfoArray(files);
 
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(debug())
     .pipe(plumber())
     .pipe(initSourceMap())
@@ -33,15 +33,15 @@ export function compileLess(profile: ILess, name: string, done: any, priority: b
 }
 
 function debug(): ReadWriteStream {
-  return plugins.debug({title: "less processed:"});
+  return plugins.debug({ title: "less processed:" });
 }
 
 function plumber(): ReadWriteStream {
   return plugins.plumber({
-    errorHandler: function(err: any) {
+    errorHandler: function (err: any) {
       notify(err);
       this.emit("end");
-    }
+    },
   });
 }
 
@@ -53,10 +53,9 @@ function less(autoprefixOpts: autoprefixer.Options): ReadWriteStream {
   let LessAutoprefix = require("less-plugin-autoprefix");
   let autoprefix = new LessAutoprefix(autoprefixOpts);
 
-  return plugins.less(
-    {
-      plugins: [autoprefix]
-    });
+  return plugins.less({
+    plugins: [autoprefix],
+  });
 }
 
 function addSourceMap(): NodeJS.ReadWriteStream {

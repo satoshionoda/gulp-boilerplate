@@ -1,11 +1,10 @@
 import * as gulp from "gulp";
-import {join} from "path";
+import { join } from "path";
 import * as gulpLoadPlugins from "gulp-load-plugins";
-import {ISync, ILiveReload, ISrc} from "imagelogic-gulp";
-import {KEYS} from "../../gulpfile";
+import { ISync, ILiveReload, ISrc } from "imagelogic-gulp";
+import { KEYS } from "../../gulpfile";
 
 const plugins: any = <any>gulpLoadPlugins();
-
 
 export function runWatchCopy(profile: ISync, profileName: string) {
   let src: string = profile.src;
@@ -39,11 +38,11 @@ export function liveReload(profile: ILiveReload) {
 
   livereload();
   livereload.listen({
-    basePath: profile.dir
+    basePath: profile.dir,
   });
 
-  let ext: string[]   = profile.ext,
-      watch: string[] = [];
+  let ext: string[] = profile.ext,
+    watch: string[] = [];
 
   for (let e of ext) {
     let str: string = profile.dir + "/**/*." + e;

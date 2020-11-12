@@ -1,4 +1,4 @@
-import {EVENT_LOAD, EVENT_PAGESHOW, EVENT_READY, EVENT_RESIZE, EVENT_SCROLL} from "./Consts";
+import { EVENT_LOAD, EVENT_PAGESHOW, EVENT_READY, EVENT_RESIZE, EVENT_SCROLL } from "./Consts";
 
 export class DocBase {
   static WinY: number = 0;
@@ -16,27 +16,19 @@ export class DocBase {
   /**
    * @abstract
    */
-  protected onReady() {
-  }
+  protected onReady() {}
 
-  protected onLoadWin() {
-  }
+  protected onLoadWin() {}
 
-  protected onScroll() {
-  }
+  protected onScroll() {}
 
-  protected onStartScrolling() {
-  }
+  protected onStartScrolling() {}
 
-  protected onStopScrolling() {
-  }
+  protected onStopScrolling() {}
 
-  protected onStartResizing() {
-  }
+  protected onStartResizing() {}
 
-  protected onStopResizing() {
-  }
-
+  protected onStopResizing() {}
 
   private setEvents() {
     document.addEventListener(EVENT_READY, () => {
@@ -83,7 +75,6 @@ export class DocBase {
 
     let resizeTimeout: number;
     window.addEventListener(EVENT_RESIZE, () => {
-
       if (!this.isResizing) {
         this.isResizing = true;
         this.onStartResizing();
@@ -94,8 +85,5 @@ export class DocBase {
         this.onStopResizing();
       }, 300);
     });
-
   }
 }
-
-
