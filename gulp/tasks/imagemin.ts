@@ -24,7 +24,7 @@ function imagemin(profile: IImagemin): ReadWriteStream {
     [
       plugins.imagemin.optipng(),
       pngquant({ quality: profile.pngquant, speed: 1 }),
-      plugins.imagemin.jpegtran(),
+      plugins.imagemin.mozjpeg(),
       imageminMozjpeg({ quality: profile.jpegmin }),
     ],
     { verbose: true }
