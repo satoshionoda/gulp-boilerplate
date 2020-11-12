@@ -6,11 +6,7 @@ _notes/
 *.iml
 *.map
 
-!.idea/
-.idea/*
-!.idea/codeStyles/
-!.idea/codeStyles/codeStyleConfig.xml
-!.idea/codeStyles/Project.xml
+.idea/
 
 npm-debug.log
 
