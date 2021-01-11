@@ -268,5 +268,5 @@ config.build.forEach((build: IBuild) => {
   registerBuildDevelop(build);
   registerBuildProd(build);
   registerWatch(build);
-  // registerDevelop(build);
+  registerDevelop(build);
 });
