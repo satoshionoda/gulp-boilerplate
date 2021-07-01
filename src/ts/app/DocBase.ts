@@ -1,4 +1,10 @@
-import { EVENT_LOAD, EVENT_PAGESHOW, EVENT_READY, EVENT_RESIZE, EVENT_SCROLL } from "./Consts";
+import {
+  EVENT_LOAD,
+  EVENT_PAGESHOW,
+  EVENT_READY,
+  EVENT_RESIZE,
+  EVENT_SCROLL,
+} from "./Consts";
 
 export class DocBase {
   static WinY: number = 0;
