@@ -42,9 +42,7 @@ class Config {
           "main.css": "main.less",
           "top.css": "top.less",
         },
-        autoprefixer: {
-          browsers: ["last 2 versions"],
-        },
+        autoprefixer: {},
       },
       ts: {
         src: join(SRC_DIR, "ts"),

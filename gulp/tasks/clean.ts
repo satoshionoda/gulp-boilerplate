@@ -19,8 +19,8 @@ export function clean(paths: string | string[], done: () => void) {
     pathsToClean = [<string>paths];
   }
 
-  let promises = pathsToClean.map((p) => {
-    return new Promise((resolve) => {
+  const promises = pathsToClean.map((p) => {
+    return new Promise((resolve: any) => {
       rimraf(p, (e) => {
         if (e) {
           util.log("Clean task failed with", e);
