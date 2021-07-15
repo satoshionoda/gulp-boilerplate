@@ -1,11 +1,7 @@
 import * as gulp from "gulp";
 import { join } from "path";
-import * as gulpLoadPlugins from "gulp-load-plugins";
 import { IBrowserSync, ISrc, ISync } from "imagelogic-gulp";
-import { KEYS } from "../utils/consts";
 import * as browserSync from "browser-sync";
-
-const plugins: any = <any>gulpLoadPlugins();
 
 export const runWatchCopy = (profile: ISync, profileName: string): void => {
   let src: string = profile.src;

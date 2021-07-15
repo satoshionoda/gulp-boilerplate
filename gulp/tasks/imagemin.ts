@@ -4,9 +4,11 @@ import pngquant = require("imagemin-pngquant");
 import imageminMozjpeg = require("imagemin-mozjpeg");
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import { plugins } from "../utils/consts";
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
 
 export const processImagemin = (profile: IImagemin, done: () => void) => {
-  console.log(profile.path);
+  log("compressing", colors.yellow(profile.path));
   gulp
     .src(`${profile.path}/**/*.*`)
     .pipe(imagemin(profile))
