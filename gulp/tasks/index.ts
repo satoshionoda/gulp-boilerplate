@@ -8,12 +8,7 @@ import { processSync } from "./copy";
 import { IBuild, ILess, IProfile, IPug, ISync, ITs } from "imagelogic-gulp";
 import { clean } from "./clean";
 import { ENV_DEV, ENV_PROD, KEYS } from "../utils/consts";
-import {
-  liveReload,
-  reloadBrowser,
-  runWatchCompile,
-  runWatchCopy,
-} from "./watches";
+import { liveReload, runWatchCompile, runWatchCopy } from "./watches";
 import { processImagemin } from "./imagemin";
 import { openURL } from "./open";
 import * as browserSync from "browser-sync";
@@ -164,7 +159,6 @@ const registerLiveReload = (build: IBuild) => {
     liveReload(build.livereload);
   });
 };
-
 const registerBrowserSync = (build: IBuild) => {
   if (!build.server) {
     return;
@@ -220,11 +214,11 @@ const findProfile = (key: string) => {
 };
 
 gulp.task(`${KEYS.SINGLE_RELOAD}`, (done) => {
-  reloadBrowser();
+  browserSync.reload();
   done();
 });
 
-const init = () => {
+const init = (): void => {
   config.profile.forEach((profile: IProfile) => {
     const profileName: string = profile.name;
     if (profile.pug) {

@@ -6,6 +6,6 @@ export class TopDoc extends MainDoc {
   }
 
   protected onReady() {
-    console.log("hello");
+    console.log("hello this is top");
   }
 }

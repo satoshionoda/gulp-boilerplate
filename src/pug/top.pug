@@ -5,6 +5,9 @@ block vars
 block links
   link(href=`${pathToCSS}top.css`, rel="stylesheet", type="text/css")
 
+block scripts
+  script(src=`${pathToJS}top.js`)
+
 block main
-  p this is
+  p this is TEST
   p: a(href=links.google) link to Google
