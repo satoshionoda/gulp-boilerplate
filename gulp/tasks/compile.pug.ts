@@ -5,10 +5,10 @@ import { env } from "../config";
 import { notify } from "../utils/notify";
 import { IPug, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
-import ReadWriteStream = NodeJS.ReadWriteStream;
 import * as log from "fancy-log";
 import * as colors from "ansi-colors";
-import { plugins } from "../utils/consts";
+import { ENV_PROD, plugins } from "../utils/consts";
+import ReadWriteStream = NodeJS.ReadWriteStream;
 
 export const compilePug = (
   profile: IPug,
@@ -46,7 +46,9 @@ const plumber = (): ReadWriteStream => {
 };
 
 const pug = (profile: IPug): ReadWriteStream => {
-  let data: any = {};
+  let data: any = {
+    hash: env === ENV_PROD ? `?${new Date().valueOf()}` : "",
+  };
   const dataPaths: string[] = profile.data;
   if (dataPaths) {
     for (const str of dataPaths) {

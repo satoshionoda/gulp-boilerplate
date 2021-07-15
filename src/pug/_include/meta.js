@@ -1,4 +1,3 @@
 exports.meta = {
-  description: "this is description"
+  description: "this is description",
 };
-
