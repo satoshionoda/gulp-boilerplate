@@ -2,11 +2,12 @@ import * as gulp from "gulp";
 import { Globs } from "gulp";
 import { join } from "path";
 import { env } from "../config";
-import * as util from "gulp-util";
 import { notify } from "../utils/notify";
 import { IPug, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
 import ReadWriteStream = NodeJS.ReadWriteStream;
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
 import { plugins } from "../utils/consts";
 
 export const compilePug = (
@@ -15,7 +16,7 @@ export const compilePug = (
   done: () => void,
   priority: boolean = false
 ): void => {
-  util.log(`${name} with ENV:`, util.colors.red(env));
+  log(`${name} with ENV:`, colors.red(env));
   const files: ProcessInfo[] = createInfoArray(profile, priority);
   const src: Globs = globFromInfoArray(files);
 
@@ -54,7 +55,7 @@ const pug = (profile: IPug): ReadWriteStream => {
       const tempData = require(path);
       // data = merge.recursive(true, dataPaths, tempData);
       data = Object.assign(data, tempData);
-      util.log("pug settings loaded:", util.colors.green(str));
+      log("pug settings loaded:", colors.green(str));
       // console.log(tempData);
     }
   }

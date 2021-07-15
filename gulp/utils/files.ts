@@ -3,7 +3,8 @@ import { extname, join } from "path";
 import { Globs } from "gulp";
 import * as through2 from "through2";
 import * as File from "vinyl";
-import * as util from "gulp-util";
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 
 export const createInfoArray = (
@@ -13,7 +14,7 @@ export const createInfoArray = (
   const files: ProcessInfo[] = [];
   const target = isPriority ? profile.files_priority : profile.files;
   if (isPriority) {
-    util.log(util.colors.red("Priority files only!"));
+    log(colors.red("Priority files only!"));
   }
   for (const key in target) {
     files.push({

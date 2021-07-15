@@ -3,8 +3,9 @@
  * https://github.com/mgechev/angular2-seed
  */
 
-import * as util from "gulp-util";
 import * as rimraf from "rimraf";
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
 
 /**
  * Cleans the given path(s) using `rimraf`.
@@ -23,9 +24,9 @@ export const clean = (paths: string | string[], done: () => void) => {
     return new Promise((resolve: any) => {
       rimraf(p, (e) => {
         if (e) {
-          util.log("Clean task failed with", e);
+          log("Clean task failed with", e);
         } else {
-          util.log("Deleted", util.colors.yellow(p || "-"));
+          log("Deleted", colors.yellow(p || "-"));
         }
         resolve();
       });

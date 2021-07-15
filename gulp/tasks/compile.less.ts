@@ -3,11 +3,13 @@ import { Globs } from "gulp";
 import { env } from "../config";
 import { ENV_DEV, ENV_PROD, plugins } from "../utils/consts";
 import { notify } from "../utils/notify";
-import * as util from "gulp-util";
 import { ILess, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
 import * as autoprefixer from "autoprefixer";
 import ReadWriteStream = NodeJS.ReadWriteStream;
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
+import through2 = require("through2");
 
 export const compileLess = (
   profile: ILess,
@@ -15,7 +17,7 @@ export const compileLess = (
   done: () => void,
   priority: boolean = false
 ): void => {
-  util.log(`${name} with ENV:`, util.colors.red(env));
+  log(`${name} with ENV:`, colors.red(env));
   const files: ProcessInfo[] = createInfoArray(profile, priority);
   const src: Globs = globFromInfoArray(files);
 
@@ -64,7 +66,7 @@ const addSourceMap = (): NodeJS.ReadWriteStream => {
   if (env === ENV_DEV) {
     return plugins.sourcemaps.write();
   } else {
-    return util.noop();
+    return through2.obj();
   }
 };
 
@@ -78,6 +80,6 @@ const addHashToImg = (): NodeJS.ReadWriteStream => {
       }
     );
   } else {
-    return util.noop();
+    return through2.obj();
   }
 };

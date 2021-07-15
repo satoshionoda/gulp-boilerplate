@@ -1,8 +1,8 @@
 import { join } from "path";
-import * as util from "gulp-util";
 import { ENV_DEV } from "./utils/consts";
 import { IProfile } from "imagelogic-gulp";
 import { IBuild } from "imagelogic-gulp";
+import * as log from "fancy-log";
 
 const PROFILE_STATIC: string = "static";
 const BUILD_STATIC: string = "static";
@@ -101,7 +101,7 @@ class Config {
   }
 
   constructor() {
-    util.log("making config");
+    log("making config");
   }
 }
 

@@ -4,12 +4,14 @@ import * as webpackStream from "webpack-stream";
 import { join } from "path";
 import { env } from "../config";
 import { ENV_DEV, plugins } from "../utils/consts";
-import * as util from "gulp-util";
 import { notify } from "../utils/notify";
 import { ITs, ProcessInfo, StringMap } from "imagelogic-gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import { createInfoArray, globFromInfoArray } from "../utils/files";
 import { Globs } from "gulp";
+import * as log from "fancy-log";
+import * as colors from "ansi-colors";
+import through2 = require("through2");
 
 export const compileTs = (
   profile: ITs,
@@ -20,7 +22,7 @@ export const compileTs = (
   const files: ProcessInfo[] = createInfoArray(profile);
   const src: Globs = globFromInfoArray(files);
 
-  util.log(`${name} with ENV:`, util.colors.red(env));
+  log(`${name} with ENV:`, colors.red(env));
   const config: webpack.Configuration = makeWebpackConfig(profile, watch);
 
   gulp
@@ -80,7 +82,7 @@ const makeWebpackConfig = (
 
 const uglyfy = (): ReadWriteStream => {
   if (env === ENV_DEV) {
-    return util.noop();
+    return through2.obj();
   } else {
     return plugins.uglify();
   }
