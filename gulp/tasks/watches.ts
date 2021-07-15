@@ -1,7 +1,7 @@
 import * as gulp from "gulp";
 import { join } from "path";
 import * as gulpLoadPlugins from "gulp-load-plugins";
-import { ILiveReload, ISrc, ISync } from "imagelogic-gulp";
+import { IBrowserSync, ISrc, ISync } from "imagelogic-gulp";
 import { KEYS } from "../utils/consts";
 
 const plugins: any = <any>gulpLoadPlugins();
@@ -32,16 +32,16 @@ export const runWatchCompile = (
   gulp.watch(globs, gulp.series(taskName));
 };
 
-export const liveReload = (profile: ILiveReload): void => {
-  const ext: string[] = profile.ext,
+export const liveReload = (profile: IBrowserSync): void => {
+  const ext: string[] = profile.watch.ext,
     watch: string[] = [];
 
   for (const e of ext) {
-    const str: string = profile.dir + "/**/*." + e;
+    const str: string = profile.watch.dir + "/**/*." + e;
     watch.push(str);
   }
-  if (profile.exclude) {
-    profile.exclude.forEach((str) => {
+  if (profile.watch.exclude) {
+    profile.watch.exclude.forEach((str) => {
       str = "!" + str;
       watch.push(str);
     });

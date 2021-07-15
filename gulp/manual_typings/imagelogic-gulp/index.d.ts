@@ -13,13 +13,15 @@ declare module "imagelogic-gulp" {
     name: string;
     profiles: string[];
     clean?: string | string[];
-    livereload?: ILiveReload;
     imagemin?: IImagemin;
     url?: string | string[];
-    server?: {
-      base: string;
-      port?: number;
-    };
+    server?: IBrowserSync;
+  }
+  interface IBrowserSync {
+    base: string;
+    watch: ILiveReload;
+    port?: number;
+    start?: string;
   }
 
   interface ISync {

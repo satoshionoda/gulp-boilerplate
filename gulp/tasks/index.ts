@@ -88,11 +88,11 @@ const registerImagemin = (build: IBuild) => {
 };
 
 const registerOpen = (build: IBuild) => {
-  if (!build.url) {
+  if (!build.server.start) {
     return;
   }
   gulp.task(`${build.name}.${KEYS.OPEN}`, (done: any) => {
-    openURL(build.url, done);
+    openURL(`http://localhost:${build.server.port}${build.server.start}`, done);
   });
 };
 
@@ -134,10 +134,8 @@ const registerWatch = (build: IBuild) => {
       });
     }
   });
-  if (build.livereload) {
-    tasks.push(`${build.name}.${KEYS.LIVE_RELOAD}`);
-  }
   if (build.server) {
+    tasks.push(`${build.name}.${KEYS.LIVE_RELOAD}`);
     tasks.push(`${build.name}.${KEYS.BROWSER_SYNC}`);
   }
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
@@ -148,15 +146,18 @@ const registerDevelop = (build: IBuild) => {
     `${build.name}.${KEYS.BUILD}.${ENV_DEV}`,
     `${build.name}.${KEYS.WATCH}`,
   ];
-  gulp.task(`${build.name}.${ENV_DEV}`, gulp.series(...tasks));
+  gulp.task(
+    `${build.name}.${ENV_DEV}`,
+    gulp.parallel(gulp.series(...tasks), `${build.name}.${KEYS.OPEN}`)
+  );
 };
 
 const registerLiveReload = (build: IBuild) => {
-  if (!build.livereload) {
+  if (!build.server) {
     return;
   }
   gulp.task(`${build.name}.${KEYS.LIVE_RELOAD}`, () => {
-    liveReload(build.livereload);
+    liveReload(build.server);
   });
 };
 const registerBrowserSync = (build: IBuild) => {
@@ -168,6 +169,8 @@ const registerBrowserSync = (build: IBuild) => {
       server: {
         baseDir: build.server.base,
       },
+      port: build.server.port ?? 3000,
+      open: false,
     });
   });
 };

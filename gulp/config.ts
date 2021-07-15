@@ -81,10 +81,6 @@ class Config {
       name: BUILD_STATIC,
       clean: [join(PROD_DIR)],
       profiles: [PROFILE_STATIC],
-      livereload: {
-        dir: PUBLIC_DIR,
-        ext: ["php", "html", "css", "js", "jpg", "gif", "svg", "png"],
-      },
       imagemin: {
         path: join(ASSETS_DIR, "images"),
         pngquant: [0.4, 1],
@@ -92,6 +88,12 @@ class Config {
       },
       server: {
         base: PUBLIC_DIR,
+        watch: {
+          dir: PUBLIC_DIR,
+          ext: ["php", "html", "css", "js", "jpg", "gif", "svg", "png"],
+        },
+        port: 3000,
+        start: "/products/",
       },
     },
   ];
