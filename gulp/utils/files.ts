@@ -6,7 +6,10 @@ import * as File from "vinyl";
 import * as util from "gulp-util";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 
-export function createInfoArray(profile: ISrc, isPriority: boolean = false): ProcessInfo[] {
+export const createInfoArray = (
+  profile: ISrc,
+  isPriority: boolean = false
+): ProcessInfo[] => {
   const files: ProcessInfo[] = [];
   const target = isPriority ? profile.files_priority : profile.files;
   if (isPriority) {
@@ -21,15 +24,15 @@ export function createInfoArray(profile: ISrc, isPriority: boolean = false): Pro
     });
   }
   return files;
-}
+};
 
-export function globFromInfoArray(arr: ProcessInfo[]): Globs {
+export const globFromInfoArray = (arr: ProcessInfo[]): Globs => {
   return arr.map((item) => {
     return item.fullSrc;
   });
-}
+};
 
-export function rename(infoArray: ProcessInfo[]): ReadWriteStream {
+export const rename = (infoArray: ProcessInfo[]): ReadWriteStream => {
   const ext = extname(infoArray[0].src);
   return through2.obj((file: File, unused, cb) => {
     file.extname = ext;
@@ -39,4 +42,4 @@ export function rename(infoArray: ProcessInfo[]): ReadWriteStream {
     file.path = join(file.base, info.dest);
     cb(null, file);
   });
-}
+};

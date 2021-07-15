@@ -11,7 +11,7 @@ import * as rimraf from "rimraf";
  * @param {string or string[]} paths - The path or list of paths to clean.
  * @param done
  */
-export function clean(paths: string | string[], done: () => void) {
+export const clean = (paths: string | string[], done: () => void) => {
   let pathsToClean: string[];
   if (paths instanceof Array) {
     pathsToClean = paths;
@@ -32,4 +32,4 @@ export function clean(paths: string | string[], done: () => void) {
     });
   });
   Promise.all(promises).then(() => done());
-}
+};

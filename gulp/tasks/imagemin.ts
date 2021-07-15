@@ -1,14 +1,13 @@
 import * as gulp from "gulp";
+import { IImagemin } from "imagelogic-gulp";
 import gulpLoadPlugins = require("gulp-load-plugins");
-import { join } from "path";
 import pngquant = require("imagemin-pngquant");
 import imageminMozjpeg = require("imagemin-mozjpeg");
 import ReadWriteStream = NodeJS.ReadWriteStream;
-import { IImagemin } from "imagelogic-gulp";
 
 const plugins = <any>gulpLoadPlugins();
 
-export function processImagemin(profile: IImagemin, done: any) {
+export const processImagemin = (profile: IImagemin, done: any) => {
   console.log(profile.path);
   gulp
     .src(`${profile.path}/**/*.*`)
@@ -17,9 +16,9 @@ export function processImagemin(profile: IImagemin, done: any) {
     .on("finish", () => {
       done();
     });
-}
+};
 
-function imagemin(profile: IImagemin): ReadWriteStream {
+const imagemin = (profile: IImagemin): ReadWriteStream => {
   return plugins.imagemin(
     [
       plugins.imagemin.optipng(),
@@ -29,4 +28,4 @@ function imagemin(profile: IImagemin): ReadWriteStream {
     ],
     { verbose: true }
   );
-}
+};

@@ -5,8 +5,8 @@ import ReadWriteStream = NodeJS.ReadWriteStream;
 
 const plugins = <any>gulpLoadPlugins();
 
-export function processSync(profile: ISync, name: string, done: any) {
-  let src = profile.src + "/**/*.*";
+export const processSync = (profile: ISync, name: string, done: any) => {
+  const src = profile.src + "/**/*.*";
   gulp
     .src(src)
     .pipe(cache(name))
@@ -15,12 +15,12 @@ export function processSync(profile: ISync, name: string, done: any) {
     .on("finish", () => {
       done();
     });
-}
+};
 
-function cache(str: string): ReadWriteStream {
+const cache = (str: string): ReadWriteStream => {
   return plugins.cached(str);
-}
+};
 
-function using(): ReadWriteStream {
+const using = (): ReadWriteStream => {
   return plugins.using({ prefix: "copying", color: "blue" });
-}
+};

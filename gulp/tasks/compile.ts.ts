@@ -14,12 +14,17 @@ import { Globs } from "gulp";
 
 const plugins = <any>gulpLoadPlugins();
 
-export function compileTs(profile: ITs, name: string, watch: boolean, done: any) {
-  let files: ProcessInfo[] = createInfoArray(profile);
-  let src: Globs = globFromInfoArray(files);
+export const compileTs = (
+  profile: ITs,
+  name: string,
+  watch: boolean,
+  done: any
+): void => {
+  const files: ProcessInfo[] = createInfoArray(profile);
+  const src: Globs = globFromInfoArray(files);
 
   util.log(`${name} with ENV:`, util.colors.red(env));
-  let config: webpack.Configuration = makeWebpackConfig(profile, watch);
+  const config: webpack.Configuration = makeWebpackConfig(profile, watch);
 
   gulp
     .src(src)
@@ -30,11 +35,14 @@ export function compileTs(profile: ITs, name: string, watch: boolean, done: any)
     .on("finish", () => {
       done();
     });
-}
+};
 
-function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Configuration {
-  let entries: StringMap = {};
-  for (let key in profile.files) {
+const makeWebpackConfig = (
+  profile: ITs,
+  watch: boolean = false
+): webpack.Configuration => {
+  const entries: StringMap = {};
+  for (const key in profile.files) {
     entries[key] = join(profile.src, profile.files[key]);
   }
 
@@ -61,21 +69,21 @@ function makeWebpackConfig(profile: ITs, watch: boolean = false): webpack.Config
     devtool: env === ENV_DEV ? "inline-source-map" : false,
     watch: watch,
   };
-}
+};
 
-function uglyfy(): ReadWriteStream {
+const uglyfy = (): ReadWriteStream => {
   if (env === ENV_DEV) {
     return util.noop();
   } else {
     return plugins.uglify();
   }
-}
+};
 
-function plumber(): ReadWriteStream {
+const plumber = (): ReadWriteStream => {
   return plugins.plumber({
     errorHandler: function (err: any) {
       notify(err);
       this.emit("end");
     },
   });
-}
+};

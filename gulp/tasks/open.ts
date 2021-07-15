@@ -1,6 +1,6 @@
 import opn = require("open");
 
-export function openURL(urls: string | string[], done: () => void) {
+export const openURL = (urls: string | string[], done: () => void) => {
   let toOpen: string[];
   if (urls instanceof Array) {
     toOpen = urls;
@@ -13,4 +13,4 @@ export function openURL(urls: string | string[], done: () => void) {
   });
 
   done();
-}
+};
