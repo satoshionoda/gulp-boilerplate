@@ -32,12 +32,12 @@ export const runWatchCompile = (
   gulp.watch(globs, gulp.series(taskName));
 };
 
-export function reloadBrowser(): void {
+export const reloadBrowser = (): void => {
   const livereload = plugins.livereload;
   livereload.reload();
-}
+};
 
-export function liveReload(profile: ILiveReload): void {
+export const liveReload = (profile: ILiveReload): void => {
   const livereload = plugins.livereload;
 
   livereload();
@@ -60,4 +60,4 @@ export function liveReload(profile: ILiveReload): void {
   }
 
   gulp.watch(watch, gulp.series(KEYS.SINGLE_RELOAD));
-}
+};

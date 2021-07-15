@@ -5,7 +5,7 @@ import imageminMozjpeg = require("imagemin-mozjpeg");
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import { plugins } from "../utils/consts";
 
-export const processImagemin = (profile: IImagemin, done: any) => {
+export const processImagemin = (profile: IImagemin, done: () => void) => {
   console.log(profile.path);
   gulp
     .src(`${profile.path}/**/*.*`)

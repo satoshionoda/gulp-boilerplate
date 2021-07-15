@@ -12,7 +12,7 @@ import ReadWriteStream = NodeJS.ReadWriteStream;
 export const compileLess = (
   profile: ILess,
   name: string,
-  done: any,
+  done: () => void,
   priority: boolean = false
 ): void => {
   util.log(`${name} with ENV:`, util.colors.red(env));

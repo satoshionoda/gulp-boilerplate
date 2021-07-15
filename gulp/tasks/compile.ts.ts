@@ -15,7 +15,7 @@ export const compileTs = (
   profile: ITs,
   name: string,
   watch: boolean,
-  done: any
+  done: () => void
 ): void => {
   const files: ProcessInfo[] = createInfoArray(profile);
   const src: Globs = globFromInfoArray(files);
