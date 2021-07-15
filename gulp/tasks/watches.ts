@@ -3,6 +3,7 @@ import { join } from "path";
 import * as gulpLoadPlugins from "gulp-load-plugins";
 import { IBrowserSync, ISrc, ISync } from "imagelogic-gulp";
 import { KEYS } from "../utils/consts";
+import * as browserSync from "browser-sync";
 
 const plugins: any = <any>gulpLoadPlugins();
 
@@ -32,7 +33,10 @@ export const runWatchCompile = (
   gulp.watch(globs, gulp.series(taskName));
 };
 
-export const liveReload = (profile: IBrowserSync): void => {
+export const liveReload = (
+  profile: IBrowserSync,
+  browserSync: browserSync.BrowserSyncInstance
+): void => {
   const ext: string[] = profile.watch.ext,
     watch: string[] = [];
 
@@ -46,5 +50,8 @@ export const liveReload = (profile: IBrowserSync): void => {
       watch.push(str);
     });
   }
-  gulp.watch(watch, gulp.series(KEYS.SINGLE_RELOAD));
+  gulp.watch(watch, (done: () => void) => {
+    browserSync.reload();
+    done();
+  });
 };

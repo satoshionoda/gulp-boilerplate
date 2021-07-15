@@ -87,15 +87,6 @@ const registerImagemin = (build: IBuild) => {
   });
 };
 
-const registerOpen = (build: IBuild) => {
-  if (!build.server.start) {
-    return;
-  }
-  gulp.task(`${build.name}.${KEYS.OPEN}`, (done: any) => {
-    openURL(`http://localhost:${build.server.port}${build.server.start}`, done);
-  });
-};
-
 const registerBuildDevelop = (build: IBuild) => {
   const tasks = createTaskSequence(build);
   gulp.task(`${build.name}.${KEYS.BUILD}.${ENV_DEV}`, gulp.series(...tasks));
@@ -135,13 +126,13 @@ const registerWatch = (build: IBuild) => {
     }
   });
   if (build.server) {
-    tasks.push(`${build.name}.${KEYS.LIVE_RELOAD}`);
-    tasks.push(`${build.name}.${KEYS.BROWSER_SYNC}`);
+    tasks.push(setLiveReload(build));
+    tasks.push(setBrowserSync(build));
   }
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 };
 
-const registerBuilds = (build: IBuild) => {
+const registerStart = (build: IBuild) => {
   const tasks: Undertaker.Task[] = [
     `${build.name}.${KEYS.BUILD}.${ENV_DEV}`,
     `${build.name}.${KEYS.WATCH}`,
@@ -151,26 +142,19 @@ const registerBuilds = (build: IBuild) => {
   };
   gulp.task(
     `${build.name}.start`,
-    gulp.parallel(
-      gulp.series(...tasks),
-      gulp.series(wait, `${build.name}.${KEYS.OPEN}`)
-    )
+    gulp.parallel(gulp.series(...tasks), gulp.series(wait, setOpen(build)))
   );
 };
 
-const registerLiveReload = (build: IBuild) => {
-  if (!build.server) {
-    return;
-  }
-  gulp.task(`${build.name}.${KEYS.LIVE_RELOAD}`, () => {
-    liveReload(build.server);
-  });
+const setLiveReload = (build: IBuild): Undertaker.Task => {
+  const watch = (done: () => void) => {
+    liveReload(build.server, browserSync);
+    done();
+  };
+  return watch;
 };
-const registerBrowserSync = (build: IBuild) => {
-  if (!build.server) {
-    return;
-  }
-  gulp.task(`${build.name}.${KEYS.BROWSER_SYNC}`, () => {
+const setBrowserSync = (build: IBuild): Undertaker.Task => {
+  const server = (done: () => void) => {
     browserSync.init({
       server: {
         baseDir: build.server.base,
@@ -178,7 +162,22 @@ const registerBrowserSync = (build: IBuild) => {
       port: build.server.port ?? 3000,
       open: false,
     });
-  });
+    done();
+  };
+  return server;
+};
+const setOpen = (build: IBuild): Undertaker.Task => {
+  const open = (done: () => void) => {
+    if (build.server.start) {
+      openURL(
+        `http://localhost:${build.server.port}${build.server.start}`,
+        done
+      );
+    } else {
+      done();
+    }
+  };
+  return open;
 };
 
 const createTaskSequence = (build: IBuild): Undertaker.Task[] => {
@@ -222,11 +221,6 @@ const findProfile = (key: string) => {
   return r;
 };
 
-gulp.task(`${KEYS.SINGLE_RELOAD}`, (done) => {
-  browserSync.reload();
-  done();
-});
-
 const init = (): void => {
   config.profile.forEach((profile: IProfile) => {
     const profileName: string = profile.name;
@@ -247,15 +241,12 @@ const init = (): void => {
   });
 
   config.build.forEach((build: IBuild) => {
-    registerOpen(build);
     registerClean(build);
     registerImagemin(build);
-    registerLiveReload(build);
-    registerBrowserSync(build);
     registerBuildDevelop(build);
     registerBuildProd(build);
     registerWatch(build);
-    registerBuilds(build);
+    registerStart(build);
   });
 };
 
