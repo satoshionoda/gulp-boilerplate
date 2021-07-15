@@ -63,6 +63,16 @@ const makeWebpackConfig = (
         },
       ],
     },
+    optimization: {
+      ...(profile.splitVendor
+        ? {
+            splitChunks: {
+              name: "vendor.js",
+              chunks: "initial",
+            },
+          }
+        : {}),
+    },
     devtool: env === ENV_DEV ? "inline-source-map" : false,
     watch: watch,
   };

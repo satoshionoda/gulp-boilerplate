@@ -52,6 +52,7 @@ class Config {
           "main.js": "main.ts",
           "top.js": "top.ts",
         },
+        splitVendor: true,
       },
       sync: [
         {

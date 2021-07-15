@@ -41,7 +41,9 @@ declare module "imagelogic-gulp" {
     autoprefixer: autoprefixer.Options;
   }
 
-  interface ITs extends ISrc {}
+  interface ITs extends ISrc {
+    splitVendor?: boolean;
+  }
 
   interface IPug extends ISrc {
     data?: string[];
