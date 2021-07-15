@@ -2,7 +2,7 @@ import * as gulp from "gulp";
 import { join } from "path";
 import * as gulpLoadPlugins from "gulp-load-plugins";
 import { ILiveReload, ISrc, ISync } from "imagelogic-gulp";
-import { KEYS } from "../../gulpfile";
+import { KEYS } from "../utils/consts";
 
 const plugins: any = <any>gulpLoadPlugins();
 
