@@ -1,3 +1,4 @@
+import * as gulpLoadPlugins from "gulp-load-plugins";
 export const ENV_DEV: string = "develop";
 export const ENV_PROD: string = "prod";
 
@@ -16,3 +17,5 @@ export enum KEYS {
   PRIORITY = "priority",
   BUILD = "build",
 }
+
+export const plugins: any = gulpLoadPlugins();

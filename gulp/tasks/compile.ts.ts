@@ -3,16 +3,13 @@ import * as webpack from "webpack";
 import * as webpackStream from "webpack-stream";
 import { join } from "path";
 import { env } from "../config";
-import { ENV_DEV } from "../utils/consts";
-import * as gulpLoadPlugins from "gulp-load-plugins";
+import { ENV_DEV, plugins } from "../utils/consts";
 import * as util from "gulp-util";
 import { notify } from "../utils/notify";
 import { ITs, ProcessInfo, StringMap } from "imagelogic-gulp";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 import { createInfoArray, globFromInfoArray } from "../utils/files";
 import { Globs } from "gulp";
-
-const plugins = <any>gulpLoadPlugins();
 
 export const compileTs = (
   profile: ITs,

@@ -1,11 +1,9 @@
 import * as gulp from "gulp";
 import { IImagemin } from "imagelogic-gulp";
-import gulpLoadPlugins = require("gulp-load-plugins");
 import pngquant = require("imagemin-pngquant");
 import imageminMozjpeg = require("imagemin-mozjpeg");
 import ReadWriteStream = NodeJS.ReadWriteStream;
-
-const plugins = <any>gulpLoadPlugins();
+import { plugins } from "../utils/consts";
 
 export const processImagemin = (profile: IImagemin, done: any) => {
   console.log(profile.path);

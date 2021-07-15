@@ -2,14 +2,12 @@ import * as gulp from "gulp";
 import { Globs } from "gulp";
 import { join } from "path";
 import { env } from "../config";
-import * as gulpLoadPlugins from "gulp-load-plugins";
 import * as util from "gulp-util";
 import { notify } from "../utils/notify";
 import { IPug, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
 import ReadWriteStream = NodeJS.ReadWriteStream;
-
-const plugins = <any>gulpLoadPlugins();
+import { plugins } from "../utils/consts";
 
 export const compilePug = (
   profile: IPug,

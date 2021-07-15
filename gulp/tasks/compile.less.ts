@@ -1,16 +1,13 @@
 import * as gulp from "gulp";
 import { Globs } from "gulp";
 import { env } from "../config";
-import { ENV_DEV, ENV_PROD } from "../utils/consts";
-import * as gulpLoadPlugins from "gulp-load-plugins";
+import { ENV_DEV, ENV_PROD, plugins } from "../utils/consts";
 import { notify } from "../utils/notify";
 import * as util from "gulp-util";
 import { ILess, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
 import * as autoprefixer from "autoprefixer";
 import ReadWriteStream = NodeJS.ReadWriteStream;
-
-const plugins: any = <any>gulpLoadPlugins();
 
 export const compileLess = (
   profile: ILess,
