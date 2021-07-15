@@ -141,14 +141,20 @@ const registerWatch = (build: IBuild) => {
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 };
 
-const registerDevelop = (build: IBuild) => {
+const registerBuilds = (build: IBuild) => {
   const tasks: Undertaker.Task[] = [
     `${build.name}.${KEYS.BUILD}.${ENV_DEV}`,
     `${build.name}.${KEYS.WATCH}`,
   ];
+  const wait = (done: () => void) => {
+    setTimeout(() => done(), 3000);
+  };
   gulp.task(
-    `${build.name}.${ENV_DEV}`,
-    gulp.parallel(gulp.series(...tasks), `${build.name}.${KEYS.OPEN}`)
+    `${build.name}.start`,
+    gulp.parallel(
+      gulp.series(...tasks),
+      gulp.series(wait, `${build.name}.${KEYS.OPEN}`)
+    )
   );
 };
 
@@ -249,7 +255,7 @@ const init = (): void => {
     registerBuildDevelop(build);
     registerBuildProd(build);
     registerWatch(build);
-    registerDevelop(build);
+    registerBuilds(build);
   });
 };
 
