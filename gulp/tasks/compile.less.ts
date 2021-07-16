@@ -29,6 +29,7 @@ export const compileLess = (
     .pipe(less(profile.autoprefixer))
     .pipe(addSourceMap())
     .pipe(addHashToImg())
+    .pipe(minify())
     .pipe(rename(files))
     .pipe(gulp.dest(profile.dest))
     .on("finish", () => {
@@ -79,6 +80,26 @@ const addHashToImg = (): NodeJS.ReadWriteStream => {
         return `background-image: url("${p1}?${num}");`;
       }
     );
+  } else {
+    return through2.obj();
+  }
+};
+
+const minify = (): NodeJS.ReadWriteStream => {
+  if (env === ENV_PROD) {
+    return plugins.cleanCss({ debug: true }, (details: any) => {
+      const name: string = details.name;
+      const original: number = details.stats.originalSize;
+      const minified: number = details.stats.minifiedSize;
+      const originalKB: string = (original / 1024).toFixed(1) + "kB";
+      const minifiedKB: string = (minified / 1024).toFixed(1) + "kB";
+      const percent: string = ((minified / original) * 100).toFixed(1) + "%";
+      log(
+        `minified:`,
+        colors.blue(name),
+        `${originalKB} => ${minifiedKB} (${percent})`
+      );
+    });
   } else {
     return through2.obj();
   }
