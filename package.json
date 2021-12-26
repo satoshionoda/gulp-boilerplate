@@ -71,5 +71,7 @@
   },
   "author": "Satoshi Onoda",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "yohak-tools": "^0.1.9"
+  }
 }
