@@ -1,15 +1,15 @@
+import * as colors from "ansi-colors";
+import * as autoprefixer from "autoprefixer";
+import * as log from "fancy-log";
 import * as gulp from "gulp";
 import { Globs } from "gulp";
+import { ILess, ProcessInfo } from "imagelogic-gulp";
+import through2 = require("through2");
 import { env } from "../config";
 import { ENV_DEV, ENV_PROD, plugins } from "../utils/consts";
-import { notify } from "../utils/notify";
-import { ILess, ProcessInfo } from "imagelogic-gulp";
 import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
-import * as autoprefixer from "autoprefixer";
+import { notify } from "../utils/notify";
 import ReadWriteStream = NodeJS.ReadWriteStream;
-import * as log from "fancy-log";
-import * as colors from "ansi-colors";
-import through2 = require("through2");
 
 export const compileLess = (
   profile: ILess,
@@ -94,11 +94,7 @@ const minify = (): NodeJS.ReadWriteStream => {
       const originalKB: string = (original / 1024).toFixed(1) + "kB";
       const minifiedKB: string = (minified / 1024).toFixed(1) + "kB";
       const percent: string = ((minified / original) * 100).toFixed(1) + "%";
-      log(
-        `minified:`,
-        colors.blue(name),
-        `${originalKB} => ${minifiedKB} (${percent})`
-      );
+      log(`minified:`, colors.blue(name), `${originalKB} => ${minifiedKB} (${percent})`);
     });
   } else {
     return through2.obj();

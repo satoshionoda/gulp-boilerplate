@@ -1,11 +1,11 @@
+import * as colors from "ansi-colors";
+import * as log from "fancy-log";
 import * as gulp from "gulp";
 import { IImagemin } from "imagelogic-gulp";
-import pngquant = require("imagemin-pngquant");
 import imageminMozjpeg = require("imagemin-mozjpeg");
-import ReadWriteStream = NodeJS.ReadWriteStream;
+import pngquant = require("imagemin-pngquant");
 import { plugins } from "../utils/consts";
-import * as log from "fancy-log";
-import * as colors from "ansi-colors";
+import ReadWriteStream = NodeJS.ReadWriteStream;
 
 export const processImagemin = (profile: IImagemin, done: () => void) => {
   log("compressing", colors.yellow(profile.path));

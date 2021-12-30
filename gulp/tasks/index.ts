@@ -1,17 +1,17 @@
+import * as browserSync from "browser-sync";
 import * as gulp from "gulp";
+import { IBuild, ILess, IProfile, IPug, ISync, ITs } from "imagelogic-gulp";
 import * as Undertaker from "undertaker";
-import * as config from "../config";
-import { compilePug } from "./compile.pug";
+import { clean } from "./clean";
 import { compileLess } from "./compile.less";
+import { compilePug } from "./compile.pug";
 import { compileTs } from "./compile.ts";
 import { processSync } from "./copy";
-import { IBuild, ILess, IProfile, IPug, ISync, ITs } from "imagelogic-gulp";
-import { clean } from "./clean";
-import { ENV_DEV, ENV_PROD, KEYS } from "../utils/consts";
-import { liveReload, runWatchCompile, runWatchCopy } from "./watches";
 import { processImagemin } from "./imagemin";
 import { openURL } from "./open";
-import * as browserSync from "browser-sync";
+import { liveReload, runWatchCompile, runWatchCopy } from "./watches";
+import * as config from "../config";
+import { ENV_DEV, ENV_PROD, KEYS } from "../utils/consts";
 
 const registerPug = (profile: IPug, profileName: string) => {
   const name: string = `${profileName}.${KEYS.PUG}`;
@@ -71,19 +71,22 @@ const registerSync = (profile: ISync, profileName: string) => {
 };
 
 const registerClean = (build: IBuild) => {
-  if (build.clean) {
-    gulp.task(`${build.name}.${KEYS.CLEAN}`, (done: () => void) => {
-      clean(build.clean, done);
-    });
+  const _clean = build.clean;
+  if (!_clean) {
+    return;
   }
+  gulp.task(`${build.name}.${KEYS.CLEAN}`, (done: () => void) => {
+    clean(_clean, done);
+  });
 };
 
 const registerImagemin = (build: IBuild) => {
-  if (!build.imagemin) {
+  const imagemin = build.imagemin;
+  if (!imagemin) {
     return;
   }
   gulp.task(`${build.name}.${KEYS.IMAGEMIN}`, (done: any) => {
-    processImagemin(build.imagemin, done);
+    processImagemin(imagemin, done);
   });
 };
 
@@ -125,10 +128,11 @@ const registerWatch = (build: IBuild) => {
       });
     }
   });
-  if (build.server) {
-    tasks.push(setLiveReload(build));
-    tasks.push(setBrowserSync(build));
-  }
+  const liveReload = setLiveReload(build);
+  liveReload ? tasks.push(liveReload) : "";
+  const server = setLiveReload(build);
+  server ? tasks.push(server) : "";
+  //
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 };
 
@@ -140,39 +144,52 @@ const registerStart = (build: IBuild) => {
   const wait = (done: () => void) => {
     setTimeout(() => done(), 3000);
   };
-  gulp.task(
-    `${build.name}.start`,
-    gulp.parallel(gulp.series(...tasks), gulp.series(wait, setOpen(build)))
-  );
+  const open = setOpen(build);
+  const startTask: Undertaker.Task[] = [gulp.series(...tasks)];
+  if (open) {
+    startTask.push(gulp.series(wait, open));
+  }
+
+  gulp.task(`${build.name}.start`, gulp.parallel(...startTask));
 };
 
-const setLiveReload = (build: IBuild): Undertaker.Task => {
+const setLiveReload = (build: IBuild): Undertaker.Task | undefined => {
+  const config = build.server;
+  if (!config) {
+    return;
+  }
   const watch = (done: () => void) => {
-    liveReload(build.server, browserSync);
+    liveReload(config, browserSync);
     done();
   };
   return watch;
 };
-const setBrowserSync = (build: IBuild): Undertaker.Task => {
+const setBrowserSync = (build: IBuild): Undertaker.Task | undefined => {
+  const config = build.server;
+  if (!config) {
+    return;
+  }
+
   const server = (done: () => void) => {
     browserSync.init({
       server: {
-        baseDir: build.server.base,
+        baseDir: config.base,
       },
-      port: build.server.port ?? 3000,
+      port: config.port ?? 3000,
       open: false,
     });
     done();
   };
   return server;
 };
-const setOpen = (build: IBuild): Undertaker.Task => {
+const setOpen = (build: IBuild): Undertaker.Task | undefined => {
+  const config = build.server;
+  if (!config) {
+    return;
+  }
   const open = (done: () => void) => {
-    if (build.server.start) {
-      openURL(
-        `http://localhost:${build.server.port}${build.server.start}`,
-        done
-      );
+    if (config.start) {
+      openURL(`http://localhost:${config.port}${config.start}`, done);
     } else {
       done();
     }
@@ -212,13 +229,13 @@ const createTaskSequence = (build: IBuild): Undertaker.Task[] => {
 };
 
 const findProfile = (key: string) => {
-  let r: IProfile = null;
+  let r: IProfile;
   config.profile.forEach((profile) => {
     if (profile.name === key) {
       r = profile;
     }
   });
-  return r;
+  return r!;
 };
 
 const init = (): void => {

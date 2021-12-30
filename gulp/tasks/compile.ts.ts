@@ -1,24 +1,19 @@
+import * as colors from "ansi-colors";
+import * as log from "fancy-log";
 import * as gulp from "gulp";
+import { Globs } from "gulp";
+import { ITs, ProcessInfo, StringMap } from "imagelogic-gulp";
+import through2 = require("through2");
 import * as webpack from "webpack";
 import * as webpackStream from "webpack-stream";
-import { join } from "path";
 import { env } from "../config";
 import { ENV_DEV, plugins } from "../utils/consts";
-import { notify } from "../utils/notify";
-import { ITs, ProcessInfo, StringMap } from "imagelogic-gulp";
-import ReadWriteStream = NodeJS.ReadWriteStream;
 import { createInfoArray, globFromInfoArray } from "../utils/files";
-import { Globs } from "gulp";
-import * as log from "fancy-log";
-import * as colors from "ansi-colors";
-import through2 = require("through2");
+import { notify } from "../utils/notify";
+import { join } from "path";
+import ReadWriteStream = NodeJS.ReadWriteStream;
 
-export const compileTs = (
-  profile: ITs,
-  name: string,
-  watch: boolean,
-  done: () => void
-): void => {
+export const compileTs = (profile: ITs, name: string, watch: boolean, done: () => void): void => {
   const files: ProcessInfo[] = createInfoArray(profile);
   const src: Globs = globFromInfoArray(files);
 
@@ -36,10 +31,7 @@ export const compileTs = (
     });
 };
 
-const makeWebpackConfig = (
-  profile: ITs,
-  watch: boolean = false
-): webpack.Configuration => {
+const makeWebpackConfig = (profile: ITs, watch: boolean = false): webpack.Configuration => {
   const entries: StringMap = {};
   for (const key in profile.files) {
     entries[key] = join(profile.src, profile.files[key]);

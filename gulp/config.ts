@@ -1,8 +1,7 @@
-import { join } from "path";
-import { ENV_DEV } from "./utils/consts";
-import { IProfile } from "imagelogic-gulp";
-import { IBuild } from "imagelogic-gulp";
 import * as log from "fancy-log";
+import { IBuild, IProfile } from "imagelogic-gulp";
+import { ENV_DEV } from "./utils/consts";
+import { join } from "path";
 
 const PROFILE_STATIC: string = "static";
 const BUILD_STATIC: string = "static";

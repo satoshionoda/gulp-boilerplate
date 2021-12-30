@@ -1,16 +1,13 @@
-import { ISrc, ProcessInfo } from "imagelogic-gulp";
-import { extname, join } from "path";
+import * as colors from "ansi-colors";
+import * as log from "fancy-log";
 import { Globs } from "gulp";
+import { ISrc, ProcessInfo } from "imagelogic-gulp";
 import * as through2 from "through2";
 import * as File from "vinyl";
-import * as log from "fancy-log";
-import * as colors from "ansi-colors";
+import { extname, join } from "path";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 
-export const createInfoArray = (
-  profile: ISrc,
-  isPriority: boolean = false
-): ProcessInfo[] => {
+export const createInfoArray = (profile: ISrc, isPriority: boolean = false): ProcessInfo[] => {
   const files: ProcessInfo[] = [];
   const target = isPriority ? profile.files_priority : profile.files;
   if (isPriority) {
@@ -37,10 +34,14 @@ export const rename = (infoArray: ProcessInfo[]): ReadWriteStream => {
   const ext = extname(infoArray[0].src);
   return through2.obj((file: File, unused, cb) => {
     file.extname = ext;
-    const info: ProcessInfo = infoArray.find((elm) => {
+    const info: ProcessInfo | undefined = infoArray.find((elm) => {
       return elm.fullSrc === file.path;
     });
-    file.path = join(file.base, info.dest);
-    cb(null, file);
+    if (info) {
+      file.path = join(file.base, info.dest);
+      cb(null, file);
+    } else {
+      cb(null);
+    }
   });
 };

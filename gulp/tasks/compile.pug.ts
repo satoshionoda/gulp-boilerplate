@@ -1,13 +1,13 @@
+import * as colors from "ansi-colors";
+import * as log from "fancy-log";
 import * as gulp from "gulp";
 import { Globs } from "gulp";
-import { join } from "path";
-import { env } from "../config";
-import { notify } from "../utils/notify";
 import { IPug, ProcessInfo } from "imagelogic-gulp";
-import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
-import * as log from "fancy-log";
-import * as colors from "ansi-colors";
+import { env } from "../config";
 import { ENV_PROD, plugins } from "../utils/consts";
+import { createInfoArray, globFromInfoArray, rename } from "../utils/files";
+import { notify } from "../utils/notify";
+import { join } from "path";
 import ReadWriteStream = NodeJS.ReadWriteStream;
 
 export const compilePug = (
@@ -49,7 +49,7 @@ const pug = (profile: IPug): ReadWriteStream => {
   let data: any = {
     hash: env === ENV_PROD ? `?${new Date().valueOf()}` : "",
   };
-  const dataPaths: string[] = profile.data;
+  const dataPaths: string[] | undefined = profile.data;
   if (dataPaths) {
     for (const str of dataPaths) {
       const path = join(profile.src, str);

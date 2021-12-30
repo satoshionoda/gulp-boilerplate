@@ -1,13 +1,9 @@
 import * as gulp from "gulp";
 import { ISync } from "imagelogic-gulp";
-import ReadWriteStream = NodeJS.ReadWriteStream;
 import { plugins } from "../utils/consts";
+import ReadWriteStream = NodeJS.ReadWriteStream;
 
-export const processSync = (
-  profile: ISync,
-  name: string,
-  done: () => void
-): void => {
+export const processSync = (profile: ISync, name: string, done: () => void): void => {
   const src = profile.src + "/**/*.*";
   gulp
     .src(src)

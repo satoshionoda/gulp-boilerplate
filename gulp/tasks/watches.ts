@@ -1,7 +1,7 @@
-import * as gulp from "gulp";
-import { join } from "path";
-import { IBrowserSync, ISrc, ISync } from "imagelogic-gulp";
 import * as browserSync from "browser-sync";
+import * as gulp from "gulp";
+import { IBrowserSync, ISrc, ISync } from "imagelogic-gulp";
+import { join } from "path";
 
 export const runWatchCopy = (profile: ISync, profileName: string): void => {
   let src: string = profile.src;
@@ -10,11 +10,7 @@ export const runWatchCopy = (profile: ISync, profileName: string): void => {
   gulp.watch(src, gulp.series(`${profileName}.sync.${syncName}`));
 };
 
-export const runWatchCompile = (
-  profile: ISrc,
-  profileName: string,
-  taskBaseName: string
-) => {
+export const runWatchCompile = (profile: ISrc, profileName: string, taskBaseName: string) => {
   const globs: string[] = [];
   for (let ext of profile.watch) {
     ext = "*." + ext;
