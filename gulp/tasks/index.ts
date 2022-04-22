@@ -71,22 +71,19 @@ const registerSync = (profile: ISync, profileName: string) => {
 };
 
 const registerClean = (build: IBuild) => {
-  const _clean = build.clean;
-  if (!_clean) {
-    return;
+  if (build.clean) {
+    gulp.task(`${build.name}.${KEYS.CLEAN}`, (done: () => void) => {
+      clean(build.clean!, done);
+    });
   }
-  gulp.task(`${build.name}.${KEYS.CLEAN}`, (done: () => void) => {
-    clean(_clean, done);
-  });
 };
 
 const registerImagemin = (build: IBuild) => {
-  const imagemin = build.imagemin;
-  if (!imagemin) {
+  if (!build.imagemin) {
     return;
   }
   gulp.task(`${build.name}.${KEYS.IMAGEMIN}`, (done: any) => {
-    processImagemin(imagemin, done);
+    processImagemin(build.imagemin!, done);
   });
 };
 
@@ -128,11 +125,10 @@ const registerWatch = (build: IBuild) => {
       });
     }
   });
-  const liveReload = setLiveReload(build);
-  liveReload ? tasks.push(liveReload) : "";
-  const server = setLiveReload(build);
-  server ? tasks.push(server) : "";
-  //
+  if (build.server) {
+    tasks.push(setLiveReload(build));
+    tasks.push(setBrowserSync(build));
+  }
   gulp.task(`${build.name}.${KEYS.WATCH}`, gulp.parallel(...tasks));
 };
 
@@ -144,52 +140,36 @@ const registerStart = (build: IBuild) => {
   const wait = (done: () => void) => {
     setTimeout(() => done(), 3000);
   };
-  const open = setOpen(build);
-  const startTask: Undertaker.Task[] = [gulp.series(...tasks)];
-  if (open) {
-    startTask.push(gulp.series(wait, open));
-  }
-
-  gulp.task(`${build.name}.start`, gulp.parallel(...startTask));
+  gulp.task(
+    `${build.name}.start`,
+    gulp.parallel(gulp.series(...tasks), gulp.series(wait, setOpen(build)))
+  );
 };
 
-const setLiveReload = (build: IBuild): Undertaker.Task | undefined => {
-  const config = build.server;
-  if (!config) {
-    return;
-  }
+const setLiveReload = (build: IBuild): Undertaker.Task => {
   const watch = (done: () => void) => {
-    liveReload(config, browserSync);
+    liveReload(build.server!, browserSync);
     done();
   };
   return watch;
 };
-const setBrowserSync = (build: IBuild): Undertaker.Task | undefined => {
-  const config = build.server;
-  if (!config) {
-    return;
-  }
-
+const setBrowserSync = (build: IBuild): Undertaker.Task => {
   const server = (done: () => void) => {
     browserSync.init({
       server: {
-        baseDir: config.base,
+        baseDir: build.server!.base,
       },
-      port: config.port ?? 3000,
+      port: build.server!.port ?? 3000,
       open: false,
     });
     done();
   };
   return server;
 };
-const setOpen = (build: IBuild): Undertaker.Task | undefined => {
-  const config = build.server;
-  if (!config) {
-    return;
-  }
+const setOpen = (build: IBuild): Undertaker.Task => {
   const open = (done: () => void) => {
-    if (config.start) {
-      openURL(`http://localhost:${config.port}${config.start}`, done);
+    if (build.server!.start) {
+      openURL(`http://localhost:${build.server!.port}${build.server!.start}`, done);
     } else {
       done();
     }
@@ -228,8 +208,8 @@ const createTaskSequence = (build: IBuild): Undertaker.Task[] => {
   return tasks;
 };
 
-const findProfile = (key: string) => {
-  let r: IProfile;
+const findProfile = (key: string): IProfile => {
+  let r: IProfile | null = null;
   config.profile.forEach((profile) => {
     if (profile.name === key) {
       r = profile;
