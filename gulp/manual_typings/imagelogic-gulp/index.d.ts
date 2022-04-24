@@ -6,6 +6,7 @@ declare module "imagelogic-gulp" {
     sync?: ISync[];
     pug?: IPug;
     less?: ILess;
+    sass?: ISass;
     ts?: ITs;
   }
 
@@ -40,6 +41,9 @@ declare module "imagelogic-gulp" {
   }
 
   interface ILess extends ISrc {
+    autoprefixer: autoprefixer.Options;
+  }
+  interface ISass extends ISrc {
     autoprefixer: autoprefixer.Options;
   }
 

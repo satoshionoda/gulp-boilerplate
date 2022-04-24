@@ -43,6 +43,18 @@ class Config {
         },
         autoprefixer: {},
       },
+      sass: {
+        src: join(SRC_DIR, "sass"),
+        dest: join(ASSETS_DIR, "css"),
+        watch: ["scss"],
+        files_priority: {
+          "test01.css": "test01.scss",
+        },
+        files: {
+          "test01.css": "test01.scss",
+        },
+        autoprefixer: {},
+      },
       ts: {
         src: join(SRC_DIR, "ts"),
         dest: join(ASSETS_DIR, "js"),

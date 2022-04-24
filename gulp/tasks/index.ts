@@ -1,10 +1,11 @@
 import * as browserSync from "browser-sync";
 import * as gulp from "gulp";
-import { IBuild, ILess, IProfile, IPug, ISync, ITs } from "imagelogic-gulp";
+import { IBuild, ILess, IProfile, IPug, ISass, ISync, ITs } from "imagelogic-gulp";
 import * as Undertaker from "undertaker";
 import { clean } from "./clean";
 import { compileLess } from "./compile.less";
 import { compilePug } from "./compile.pug";
+import { compileSass } from "./compile.sass";
 import { compileTs } from "./compile.ts";
 import { processSync } from "./copy";
 import { processImagemin } from "./imagemin";
@@ -43,6 +44,22 @@ const registerLess = (profile: ILess, profileName: string) => {
 
   gulp.task(`${name}.${KEYS.WATCH}`, () => {
     runWatchCompile(profile, profileName, KEYS.LESS);
+  });
+};
+const registerSass = (profile: ISass, profileName: string) => {
+  const name: string = `${profileName}.${KEYS.SASS}`;
+  gulp.task(name, (done: () => void) => {
+    compileSass(profile, name, done);
+  });
+
+  if (profile.files_priority) {
+    gulp.task(`${name}.${KEYS.PRIORITY}`, (done: () => void) => {
+      compileSass(profile, name, done, true);
+    });
+  }
+
+  gulp.task(`${name}.${KEYS.WATCH}`, () => {
+    runWatchCompile(profile, profileName, KEYS.SASS);
   });
 };
 
@@ -200,6 +217,9 @@ const createTaskSequence = (build: IBuild): Undertaker.Task[] => {
     if (profile.less) {
       tasks.push(`${profileName}.${KEYS.LESS}`);
     }
+    if (profile.sass) {
+      tasks.push(`${profileName}.${KEYS.SASS}`);
+    }
     if (profile.ts) {
       tasks.push(`${profileName}.${KEYS.TS}`);
     }
@@ -226,6 +246,9 @@ const init = (): void => {
     }
     if (profile.less) {
       registerLess(profile.less, profileName);
+    }
+    if (profile.sass) {
+      registerSass(profile.sass, profileName);
     }
     if (profile.ts) {
       registerTs(profile.ts, profileName);

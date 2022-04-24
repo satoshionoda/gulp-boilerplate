@@ -6,6 +6,7 @@ export const ENV_PROD: string = "prod";
 export enum KEYS {
   PUG = "pug",
   LESS = "less",
+  SASS = "sass",
   TS = "ts",
   WATCH = "watch",
   OPEN = "open",

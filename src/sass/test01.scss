@@ -1,0 +1,13 @@
+@use "_include/variables" as *;
+
+body{
+  color: $base-color;
+}
+
+main{
+  backdrop-filter: blur(2px);
+}
+
+.hoge{
+  background-image:url("../test.png");
+}
