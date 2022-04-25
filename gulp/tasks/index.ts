@@ -134,6 +134,9 @@ const registerWatch = (build: IBuild) => {
     if (profile.less) {
       tasks.push(`${profile.name}.${KEYS.LESS}.${KEYS.WATCH}`);
     }
+    if (profile.sass) {
+      tasks.push(`${profile.name}.${KEYS.SASS}.${KEYS.WATCH}`);
+    }
     if (profile.sync) {
       profile.sync.forEach((sync) => {
         if (sync.watch) {
